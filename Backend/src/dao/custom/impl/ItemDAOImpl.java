@@ -34,8 +34,8 @@ public class ItemDAOImpl implements ItemDAO {
             item=new Item(
                     resultSet.getString(1),
                     resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getDouble(4)
+                    resultSet.getDouble(3),
+                    resultSet.getInt(4)
             );
         }
         return item;
@@ -50,8 +50,8 @@ public class ItemDAOImpl implements ItemDAO {
                     new Item(
                             resultSet.getString(1),
                             resultSet.getString(2),
-                            resultSet.getInt(3),
-                            resultSet.getDouble(4)
+                            resultSet.getDouble(3),
+                            resultSet.getInt(4)
                     )
             );
         }
