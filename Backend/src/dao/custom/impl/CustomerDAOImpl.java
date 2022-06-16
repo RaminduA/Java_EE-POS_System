@@ -13,12 +13,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean add(Connection connection, Customer customer) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"INSERT INTO Customer VALUES (?,?,?,?,?)",customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact(),customer.getNic());
+        return CrudUtil.executeUpdate(connection,"INSERT INTO Customer VALUES (?,?,?,?)",customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact());
     }
 
     @Override
     public boolean update(Connection connection, Customer customer) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"UPDATE Customer SET name=?, address=?, contact=?, nic=? WHERE customerId=?",customer.getName(),customer.getAddress(),customer.getContact(),customer.getNic(),customer.getCustomerId());
+        return CrudUtil.executeUpdate(connection,"UPDATE Customer SET name=?, address=?, contact=? WHERE customerId=?",customer.getName(),customer.getAddress(),customer.getContact(),customer.getCustomerId());
     }
 
     @Override
@@ -35,8 +35,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
-                            resultSet.getString(4),
-                            resultSet.getString(5)
+                            resultSet.getString(4)
                     );
         }
         return customer;
@@ -52,8 +51,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5)
+                    resultSet.getString(4)
                 )
             );
         }
@@ -66,16 +64,18 @@ public class CustomerDAOImpl implements CustomerDAO {
         if(resultSet.next()){
             int index=Integer.parseInt(resultSet.getString(1).split("-")[1]);
             if(index<9){
-                return "C-000"+ ++index;
+                return "C-0000"+ ++index;
             }else if(index<99){
-                return "C-00"+ ++index;
+                return "C-000"+ ++index;
             }else if(index<999){
+                return "C-00"+ ++index;
+            }else if(index<9999){
                 return "C-0"+ ++index;
             }else{
                 return "C-"+ ++index;
             }
         }else{
-            return "C-0001";
+            return "C-00001";
         }
     }
 
