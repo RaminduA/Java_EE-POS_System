@@ -5,16 +5,14 @@ public class Customer {
     private String name;
     private String address;
     private String contact;
-    private String nic;
 
     public Customer() { }
 
-    public Customer(String customerId, String name, String address, String contact, String nic) {
+    public Customer(String customerId, String name, String address, String contact) {
         this.setCustomerId(customerId);
         this.setName(name);
         this.setAddress(address);
         this.setContact(contact);
-        this.setNic(nic);
     }
 
     public String getCustomerId() {
@@ -45,13 +43,6 @@ public class Customer {
         this.contact = contact;
     }
 
-    public String getNic() {
-        return nic;
-    }
-    public void setNic(String nic) {
-        this.nic = nic;
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
@@ -59,7 +50,6 @@ public class Customer {
                 ", name='" + getName() + '\'' +
                 ", address='" + getAddress() + '\'' +
                 ", contact='" + getContact() + '\'' +
-                ", nic='" + getNic() + '\'' +
                 '}';
     }
 }
