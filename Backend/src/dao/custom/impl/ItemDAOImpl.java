@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean add(Connection connection, Item item) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"INSERT INTO Item VALUES (?,?,?,?,?)",item.getItemCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice(),item.getDiscountPercent());
+        return CrudUtil.executeUpdate(connection,"INSERT INTO Item VALUES (?,?,?,?)",item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand());
 
     }
 
     @Override
     public boolean update(Connection connection, Item item) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"UPDATE Item SET description=?, qtyOnHand=?, unitPrice=?, discountPercent=? WHERE itemCode=?",item.getDescription(),item.getQtyOnHand(),item.getUnitPrice(),item.getDiscountPercent(),item.getItemCode());
+        return CrudUtil.executeUpdate(connection,"UPDATE Item SET name=?, price=?, quantity=? WHERE itemCode=?",item.getName(),item.getUnitPrice(),item.getQtyOnHand(),item.getItemCode());
     }
 
     @Override
@@ -35,8 +35,7 @@ public class ItemDAOImpl implements ItemDAO {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getInt(3),
-                    resultSet.getDouble(4),
-                    resultSet.getDouble(5)
+                    resultSet.getDouble(4)
             );
         }
         return item;
@@ -52,8 +51,7 @@ public class ItemDAOImpl implements ItemDAO {
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getInt(3),
-                            resultSet.getDouble(4),
-                            resultSet.getDouble(5)
+                            resultSet.getDouble(4)
                     )
             );
         }
@@ -66,16 +64,20 @@ public class ItemDAOImpl implements ItemDAO {
         if(resultSet.next()){
             int index=Integer.parseInt(resultSet.getString(1).split("-")[1]);
             if(index<9){
-                return "I-000"+ ++index;
+                return "I-00000"+ ++index;
             }else if(index<99){
-                return "I-00"+ ++index;
+                return "I-0000"+ ++index;
             }else if(index<999){
+                return "I-000"+ ++index;
+            }else if(index<9999){
+                return "I-00"+ ++index;
+            }else if(index<99999){
                 return "I-0"+ ++index;
             }else{
                 return "I-"+ ++index;
             }
         }else{
-            return "I-0001";
+            return "I-000001";
         }
     }
 
