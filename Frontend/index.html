@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap POS System</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.css">
+    <link href="assets/styles/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <style>
+        #card1{
+            background-image: url("assets/images/card1.jpg");
+        }
+        #card2{
+            background-image: url("assets/images/card2.jpg");
+        }
+        #card3{
+            background-image: url("assets/images/card3.jpg");
+        }
+    </style>
+</head>
+<body>
+<nav class="container-fluid">
+    <section class="row bg-success">
+        <div class="col-2 navbar">
+            <a class="navbar-brand text-white" href="#">POS System</a>
+        </div>
+        <div class="col navbar bg-white bg-opacity-10">
+
+        </div>
+    </section>
+</nav>
+<main class="container-fluid">
+    <section class="row">
+        <nav class="col-2 navbar bg-dark">
+            <ul class ="nav nav-pills flex-column mb-auto">
+                <li>
+                    <a class ="nav-link text-white" id="linkHome" href="#"><i class="fa-solid fa-gauge text-white"></i> Dashboard </a>
+                </li>
+                <li class ="nav-item">
+                    <a class ="nav-link text-white" href="#"><i class="fa-solid fa-file-lines text-white"></i> Invoices </a>
+                </li>
+                <li class ="nav-item">
+                    <a class ="nav-link text-white" id="linkCustomer" href="#"><i class="fa-solid fa-users text-white"></i> Customers </a>
+                </li>
+                <li class ="nav-item">
+                    <a class ="nav-link text-white" id="linkItem" href="#"><i class="fa-solid fa-box-archive text-white"></i> Items </a>
+                </li>
+                <li class ="nav-item">
+                    <a class ="nav-link text-white" id="linkOrder" href="#"><i class="fa-solid fa-cart-flatbed text-white"></i> Orders </a>
+                </li>
+            </ul>
+        </nav>
+        <section id="mainContent" class="col-10">
+            <section id="dashboardContent">
+                <div class="row p-3 m-0">
+                    <div class="col-4 cardContainer">
+                        <div id="card1" class="myCard">
+                            <i class="fas fa-users"></i>
+                            <h1>All Customers</h1>
+                            <h2>230</h2>
+                        </div>
+                    </div>
+                    <div class="col-4 cardContainer">
+                        <div id="card2" class="myCard">
+                            <i class="fab fa-shopify"></i>
+                            <h1>All Items</h1>
+                            <h2>550</h2>
+                        </div>
+                    </div>
+                    <div class="col-4 cardContainer">
+                        <div id="card3" class="myCard">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h1>All Orders</h1>
+                            <h2>4100</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="carousel slide" data-bs-ride="carousel" id="carouselExampleCaptions">
+                        <div class="carousel-indicators">
+                            <button aria-current="true" aria-label="Slide 1" class="active" data-bs-slide-to="0"
+                                    data-bs-target="#carouselExampleCaptions" type="button"></button>
+                            <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#carouselExampleCaptions"
+                                    type="button"></button>
+                            <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#carouselExampleCaptions"
+                                    type="button"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img alt="..." class="d-block w-100" src="assets/images/image1.jpg">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>First slide label</h5>
+                                    <p>Some representative placeholder content for the first slide.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img alt="..." class="d-block w-100" src="assets/images/image2.png">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Second slide label</h5>
+                                    <p>Some representative placeholder content for the second slide.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img alt="..." class="d-block w-100" src="assets/images/image3.jpg">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Third slide label</h5>
+                                    <p>Some representative placeholder content for the third slide.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleCaptions"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleCaptions"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section id="customerContent">
+                <section class="container-fluid mt-3">
+                    <section class="row mt-3 justify-content-around">
+                        <div class="col-12 col-md-4">
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <h1 class="h1 mb-3">Customer Manage</h1>
+                                <div class="mb-3">
+                                    <label class="form-label" for="txtCusSearch">Search Customer</label>
+                                    <input class="form-control" id="txtCusSearch" placeholder="Customer ID, Name, Address, Contact" type="text">
+                                </div>
+                                <button id="btnCustSearch" class="btn btn-primary">Search</button>
+                                <button id="btnCustDelete" class="btn btn-danger">Delete</button>
+                                <button id="btnCustSaveOrUpdate" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusID">Customer ID</label>
+                                <input class="form-control" id="txtCusID" placeholder="Customer ID" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusName">Customer Name</label>
+                                <input class="form-control" id="txtCusName" placeholder="Customer Name" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusAddress">Customer Address</label>
+                                <input class="form-control" id="txtCusAddress" placeholder="Customer Address" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusContact">Customer Contact</label>
+                                <input class="form-control" id="txtCusContact" placeholder="Customer Contact" type="text">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="row mt-4">
+                        <div class="col">
+                            <table class="table table-hover">
+                                <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Address</th>
+                                    <th>Customer Contact.</th>
+                                </tr>
+                                </thead>
+                                <tbody id="customerTable">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+            <section id="itemContent">
+                <section class="container-fluid mt-3">
+                    <section class="row mt-3 justify-content-around">
+                        <div class="col-12 col-md-4">
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <h1 class="h1 mb-3">Item Manage</h1>
+                                <div class="mb-3">
+                                    <label class="form-label" for="txtItemSearch">Search Item</label>
+                                    <input class="form-control" id="txtItemSearch" placeholder="Item Code, Name, Price, Quantity" type="text">
+                                </div>
+                                <button id="btnItemSearch" class="btn btn-primary">Search</button>
+                                <button id="btnItemDelete" class="btn btn-danger">Delete</button>
+                                <button id="btnItemSaveOrUpdate" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="mb-3">
+                                <label class="form-label" for="txtItemCode">Item Code</label>
+                                <input class="form-control" id="txtItemCode" placeholder="Item Code" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtItemName">Item Name</label>
+                                <input class="form-control" id="txtItemName" placeholder="Item Name" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtItemPrice">Item Price</label>
+                                <input class="form-control" id="txtItemPrice" placeholder="Item Price" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtItemQty">Item Quantity</label>
+                                <input class="form-control" id="txtItemQty" placeholder="Item Quantity" type="text">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="row mt-4">
+                        <div class="col">
+                            <table class="table table-hover">
+                                <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <th>Item Price</th>
+                                    <th>Item Quantity.</th>
+                                </tr>
+                                </thead>
+                                <tbody id="itemTable">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+            <section id="orderContent">
+                <div class="12 grid-margin">
+                    <div class="row">
+                        <div class="col-md-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample">
+                                        <div class="row form-group">
+                                            <label for="txtOrderId" class="col-sm-4 col-form-label">Order ID</label>
+                                            <div class="col-sm-8">
+                                                <input id="txtOrderId" placeholder="Order ID" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample">
+                                        <div class="row form-group">
+                                            <!--<label for="txtDate" class="col-sm-3 col-form-label">Date</label>-->
+                                            <div class="col-sm-5">
+                                                <input class="form-control" id="txtDate" type="text">
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input class="form-control" id="txtTime" type="text">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="forms-sample">
+                                        <div class="row form-group m-0">
+                                            <div class="col-12">
+                                                <span class="h1" id="total-text">Total  :  Rs. </span>
+                                                <span class="h1" id="txtTotal"> 0.00</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="card-title">Customer Details</h2>
+                                    <form class="forms-sample">
+                                        <div class="row form-group mt-3">
+                                            <label for="cmbOrderCustId" class="col-sm-3 col-form-label">ID</label>
+                                            <div class="col-sm-9">
+                                                <select id="cmbOrderCustId" class="combo form-control">
+                                                    <option value="" selected disabled hidden>Customer ID</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderCustName" class="col-sm-3 col-form-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderCustName" placeholder="Customer Name" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderCustAddress" class="col-sm-3 col-form-label">Address</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderCustAddress" placeholder="Customer Address" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderCustContact" class="col-sm-3 col-form-label">Contact</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderCustContact" placeholder="Customer Contact" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="card-title">Item Details</h2>
+                                    <form class="forms-sample">
+                                        <div class="row form-group mt-3">
+                                            <label for="cmbOrderItemCode" class="col-sm-3 col-form-label">Code</label>
+                                            <div class="col-sm-9">
+                                                <select id="cmbOrderItemCode" class="combo form-control">
+                                                    <option value="" selected disabled hidden>Item Code</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderItemName" class="col-sm-3 col-form-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderItemName" placeholder="Item Name" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderItemPrice" class="col-sm-3 col-form-label">Price</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderItemPrice" placeholder="Item Price" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mt-3">
+                                            <label for="txtOrderItemQty" class="col-sm-3 col-form-label">Quantity On Hand</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtOrderItemQty" placeholder="Item Quantity" type="text" class="form-control form-control">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <section class="content-box-2 p-4 ">
+                                        <div class="row">
+                                            <div class="row form-group mt-3">
+                                                <label for="txtQuantity" class="col-sm-4 col-form-label">Quantity</label>
+                                                <div class="col-sm-8">
+                                                    <input id="txtQuantity" placeholder="Quantity" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group mt-3">
+                                                <label for="txtSubTotal" class="col-sm-4 col-form-label">Sub Total</label>
+                                                <div class="col-sm-8">
+                                                    <input id="txtSubTotal" placeholder="Sub Total" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <button class="btn btn-success mt-3" id="btnAddToCart" type="button">Add Item</button>
+                                            </div>
+                                            <div class="col-5">
+                                                <button class="btn btn-success mt-3" id="btnPurchaseOrder" type="button">Purchase</button>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div  class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="bg-dark text-white">
+                                            <tr>
+                                                <th>Item Code</th>
+                                                <th>Item Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="orderTable">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</main>
+<script src="assets/jQuery/jquery-3.6.0.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/spa.js"></script>
+<script src="controller/customerController.js"></script>
+<script src="model/customerDTO.js"></script>
+<script src="controller/itemController.js"></script>
+<script src="model/itemDTO.js"></script >
+<script src="controller/orderController.js"></script>
+<script src="model/orderDTO.js"></script>
+<script src="model/orderDetailDTO.js"></script>
+<script src="model/orderTM.js"></script>
+<script src="db/database.js"></script>
+</body>
+</html>
