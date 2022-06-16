@@ -2,10 +2,8 @@ package dao.custom;
 
 import dao.CrudDAO;
 import entity.OrderDetail;
-import util.CrudUtil;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
