@@ -5,16 +5,14 @@ public class CustomerDTO {
     private String name;
     private String address;
     private String contact;
-    private String nic;
 
     public CustomerDTO() { }
 
-    public CustomerDTO(String customerId, String name, String address, String contact, String nic) {
+    public CustomerDTO(String customerId, String name, String address, String contact) {
         this.setCustomerId(customerId);
         this.setName(name);
         this.setAddress(address);
         this.setContact(contact);
-        this.setNic(nic);
     }
 
     public String getCustomerId() {
@@ -45,13 +43,6 @@ public class CustomerDTO {
         this.contact = contact;
     }
 
-    public String getNic() {
-        return nic;
-    }
-    public void setNic(String nic) {
-        this.nic = nic;
-    }
-
     @Override
     public String toString() {
         return "CustomerDTO{" +
@@ -59,7 +50,6 @@ public class CustomerDTO {
                 ", name='" + getName() + '\'' +
                 ", address='" + getAddress() + '\'' +
                 ", contact='" + getContact() + '\'' +
-                ", nic='" + getNic() + '\'' +
                 '}';
     }
 }
