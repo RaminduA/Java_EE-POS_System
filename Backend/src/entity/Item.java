@@ -2,19 +2,17 @@ package entity;
 
 public class Item {
     private String itemCode;
-    private String description;
-    private int qtyOnHand;
+    private String name;
     private double unitPrice;
-    private double discountPercent;
+    private int qtyOnHand;
 
     public Item() {  }
 
-    public Item(String itemCode, String description, int qtyOnHand, double unitPrice, double discountPercent) {
+    public Item(String itemCode, String name, double unitPrice, int qtyOnHand) {
         this.setItemCode(itemCode);
-        this.setDescription(description);
-        this.setQtyOnHand(qtyOnHand);
+        this.setName(name);
         this.setUnitPrice(unitPrice);
-        this.setDiscountPercent(discountPercent);
+        this.setQtyOnHand(qtyOnHand);
     }
 
     public String getItemCode() {
@@ -24,18 +22,11 @@ public class Item {
         this.itemCode = itemCode;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getQtyOnHand() {
-        return qtyOnHand;
-    }
-    public void setQtyOnHand(int qtyOnHand) {
-        this.qtyOnHand = qtyOnHand;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getUnitPrice() {
@@ -45,21 +36,20 @@ public class Item {
         this.unitPrice = unitPrice;
     }
 
-    public double getDiscountPercent() {
-        return discountPercent;
+    public int getQtyOnHand() {
+        return qtyOnHand;
     }
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
+    public void setQtyOnHand(int qtyOnHand) {
+        this.qtyOnHand = qtyOnHand;
     }
 
     @Override
     public String toString() {
         return "Item{" +
                 "itemCode='" + getItemCode() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", qtyOnHand=" + getQtyOnHand() +
+                ", name='" + getName() + '\'' +
                 ", unitPrice=" + getUnitPrice() +
-                ", discountPercent=" + getDiscountPercent() +
+                ", qtyOnHand=" + getQtyOnHand() +
                 '}';
     }
 }
