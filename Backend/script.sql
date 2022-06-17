@@ -24,4 +24,19 @@ CREATE TABLE IF NOT EXISTS Item(
 SELECT * FROM Item;
 DESC Item;
 
+DROP TABLE IF EXISTS `Order`;
+CREATE TABLE IF NOT EXISTS `Order`(
+    orderId  VARCHAR(8) NOT NULL,
+    customerId VARCHAR(8) NOT NULL,
+    date DATE,
+    time VARCHAR(13),
+    cost DECIMAL(8,2),
+    PRIMARY KEY(orderId),
+    FOREIGN KEY (customerId)
+        REFERENCES Customer(customerId)
+        ON DELETE CASCADE
+);
+SELECT * FROM `Order`;
+DESC `Order`;
+
 INSERT INTO Item VALUES ('I-000001', 'Butter', 450.00, 25);

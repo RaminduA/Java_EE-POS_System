@@ -20,7 +20,6 @@ $("#linkItem").click(function (){
 
 });
 
-
 $("#linkHome").click(function (){
     $("#dashboardContent").css("display","block");
     $("#itemContent").css("display","none");
