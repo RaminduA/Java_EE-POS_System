@@ -6,6 +6,7 @@ import dao.custom.CustomerDAO;
 import dto.CustomerDTO;
 import entity.Customer;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,9 +14,9 @@ public class CustomerBOImpl implements CustomerBO {
     private final CustomerDAO customerDAO=(CustomerDAO)DAOFactory.getInstance().getDAO(DAOFactory.DAOType.CUSTOMER);
 
     @Override
-    public boolean addCustomer(CustomerDTO dto) {
+    public boolean addCustomer(Connection connection, CustomerDTO dto) {
         try {
-            return customerDAO.add(new Customer(dto.getCustomerId(),dto.getName(),dto.getAddress(),dto.getContact(),dto.getNic()));
+            return customerDAO.add(connection, new Customer(dto.getCustomerId(),dto.getName(),dto.getAddress(),dto.getContact()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -23,9 +24,9 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public boolean updateCustomer(CustomerDTO dto) {
+    public boolean updateCustomer(Connection connection, CustomerDTO dto) {
         try {
-            return customerDAO.update(new Customer(dto.getCustomerId(),dto.getName(),dto.getAddress(),dto.getContact(),dto.getNic()));
+            return customerDAO.update(connection, new Customer(dto.getCustomerId(),dto.getName(),dto.getAddress(),dto.getContact()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -33,9 +34,9 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public boolean deleteCustomer(String id) {
+    public boolean deleteCustomer(Connection connection, String id) {
         try {
-            return customerDAO.delete(id);
+            return customerDAO.delete(connection, id);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -43,13 +44,13 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public ArrayList<CustomerDTO> getAllCustomers() {
+    public ArrayList<CustomerDTO> getAllCustomers(Connection connection) {
         ArrayList<CustomerDTO> customers=new ArrayList<>();
         try {
-            ArrayList<Customer> customerList=customerDAO.getAll();
+            ArrayList<Customer> customerList=customerDAO.getAll(connection);
             for(Customer customer : customerList) {
                 customers.add(
-                    new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact(),customer.getNic())
+                    new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact())
                 );
             }
         } catch (SQLException | ClassNotFoundException throwables) {
@@ -59,9 +60,9 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public String getCustomerId() {
+    public String getCustomerId(Connection connection) {
         try {
-            return customerDAO.getId();
+            return customerDAO.getId(connection);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
