@@ -12,12 +12,12 @@ import java.util.ArrayList;
 public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public boolean add(Connection connection, OrderDetail orderDetail) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"INSERT INTO `Order Detail` VALUES(?,?,?,?,?)",orderDetail.getOrderId(),orderDetail.getItemCode(),orderDetail.getOrderQty(),orderDetail.getDiscount(),orderDetail.getPrice());
+        return CrudUtil.executeUpdate(connection,"INSERT INTO `Order Detail` VALUES(?,?,?,?,?)",orderDetail.getOrderId(),orderDetail.getItemCode(),orderDetail.getUnitPrice(),orderDetail.getOrderQty(),orderDetail.getPrice());
     }
 
     @Override
     public boolean update(Connection connection, OrderDetail orderDetail) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"UPDATE `Order Detail` SET orderQty=?, discount=?, price=? WHERE orderId=? AND itemCode=?",orderDetail.getOrderQty(),orderDetail.getDiscount(),orderDetail.getPrice(),orderDetail.getOrderId(),orderDetail.getItemCode());
+        return CrudUtil.executeUpdate(connection,"UPDATE `Order Detail` SET orderQty=?, discount=?, price=? WHERE orderId=? AND itemCode=?",orderDetail.getUnitPrice(),orderDetail.getOrderQty(),orderDetail.getPrice(),orderDetail.getOrderId(),orderDetail.getItemCode());
     }
 
     @Override
@@ -43,8 +43,8 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
             orderDetail=new OrderDetail(
                     resultSet.getString(1),
                     resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getDouble(4),
+                    resultSet.getDouble(3),
+                    resultSet.getInt(4),
                     resultSet.getDouble(5)
             );
         }
@@ -65,8 +65,8 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
                     new OrderDetail(
                             resultSet.getString(1),
                             resultSet.getString(2),
-                            resultSet.getInt(3),
-                            resultSet.getDouble(4),
+                            resultSet.getDouble(3),
+                            resultSet.getInt(4),
                             resultSet.getDouble(5)
                     )
             );
