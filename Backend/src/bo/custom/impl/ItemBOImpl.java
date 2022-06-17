@@ -6,6 +6,7 @@ import dao.custom.ItemDAO;
 import dto.ItemDTO;
 import entity.Item;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,9 +14,9 @@ public class ItemBOImpl implements ItemBO {
     private final ItemDAO itemDAO=(ItemDAO)DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);
 
     @Override
-    public boolean addItem(ItemDTO dto) {
+    public boolean addItem(Connection connection, ItemDTO dto) {
         try {
-            return itemDAO.add(new Item(dto.getItemCode(),dto.getDescription(),dto.getQtyOnHand(),dto.getUnitPrice(),dto.getDiscountPercent()));
+            return itemDAO.add(connection, new Item(dto.getItemCode(),dto.getName(),dto.getUnitPrice(),dto.getQtyOnHand()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -23,9 +24,9 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public boolean updateItem(ItemDTO dto) {
+    public boolean updateItem(Connection connection, ItemDTO dto) {
         try {
-            return itemDAO.update(new Item(dto.getItemCode(),dto.getDescription(),dto.getQtyOnHand(),dto.getUnitPrice(),dto.getDiscountPercent()));
+            return itemDAO.update(connection, new Item(dto.getItemCode(),dto.getName(),dto.getUnitPrice(),dto.getQtyOnHand()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -33,9 +34,9 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public boolean deleteItem(String code) {
+    public boolean deleteItem(Connection connection, String code) {
         try {
-            return itemDAO.delete(code);
+            return itemDAO.delete(connection, code);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -43,13 +44,13 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public ArrayList<ItemDTO> getAllItems() {
+    public ArrayList<ItemDTO> getAllItems(Connection connection) {
         ArrayList<ItemDTO> items=new ArrayList<>();
         try {
-            ArrayList<Item> itemList=itemDAO.getAll();
+            ArrayList<Item> itemList=itemDAO.getAll(connection);
             for(Item item : itemList) {
                 items.add(
-                        new ItemDTO(item.getItemCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice(),item.getDiscountPercent())
+                        new ItemDTO(item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand())
                 );
             }
         } catch (SQLException | ClassNotFoundException throwables) {
@@ -59,9 +60,9 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public String getItemCode() {
+    public String getItemCode(Connection connection) {
         try {
-            return itemDAO.getId();
+            return itemDAO.getId(connection);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
