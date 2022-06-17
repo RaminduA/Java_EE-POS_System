@@ -39,4 +39,20 @@ CREATE TABLE IF NOT EXISTS `Order`(
 SELECT * FROM `Order`;
 DESC `Order`;
 
-INSERT INTO Item VALUES ('I-000001', 'Butter', 450.00, 25);
+DROP TABLE IF EXISTS `Order Detail`;
+CREATE TABLE IF NOT EXISTS `Order Detail`(
+    orderId  VARCHAR(8) NOT NULL,
+    itemCode VARCHAR(8) NOT NULL,
+    unitPrice DECIMAL(8,2),
+    quantity INT,
+    price DECIMAL(8,2),
+    PRIMARY KEY(orderId,itemCode),
+    FOREIGN KEY (orderId)
+        REFERENCES `Order`(orderId)
+        ON DELETE CASCADE,
+    FOREIGN KEY (itemCode)
+        REFERENCES Item(itemCode)
+        ON DELETE CASCADE
+);
+SELECT * FROM `Order Detail`;
+DESC `Order Detail`;
