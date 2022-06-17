@@ -66,16 +66,20 @@ public class OrderDAOImpl implements OrderDAO {
         if(resultSet.next()){
             int index=Integer.parseInt(resultSet.getString(1).split("-")[1]);
             if(index<9){
-                return "O-000"+ ++index;
+                return "O-00000"+ ++index;
             }else if(index<99){
-                return "O-00"+ ++index;
+                return "O-0000"+ ++index;
             }else if(index<999){
+                return "O-000"+ ++index;
+            }else if(index<9999){
+                return "O-00"+ ++index;
+            }else if(index<99999){
                 return "O-0"+ ++index;
             }else{
                 return "O-"+ ++index;
             }
         }else{
-            return "O-0001";
+            return "O-000001";
         }
     }
 
