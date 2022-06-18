@@ -10,7 +10,6 @@ import dto.CustomerDTO;
 import dto.ItemDTO;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
-import db.DatabaseConnection;
 import entity.Customer;
 import entity.Item;
 import entity.Order;
@@ -27,10 +26,10 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     private final OrderDetailDAO detailDAO=(OrderDetailDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDERDETAIL);
 
     @Override
-    public ArrayList<String> getAllCustomerIds() {
+    public ArrayList<String> getAllCustomerIds(Connection connection) {
         ArrayList<String> customerIds=new ArrayList<>();
         try {
-            customerIds=customerDAO.getAllIds();
+            customerIds=customerDAO.getAllIds(connection);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -38,10 +37,10 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public ArrayList<String> getAllItemCodes() {
+    public ArrayList<String> getAllItemCodes(Connection connection) {
         ArrayList<String> itemCodes=new ArrayList<>();
         try {
-            itemCodes=itemDAO.getAllIds();
+            itemCodes=itemDAO.getAllIds(connection);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -49,9 +48,9 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public String getOrderId() {
+    public String getOrderId(Connection connection) {
         try {
-            return orderDAO.getId();
+            return orderDAO.getId(connection);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -59,10 +58,10 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public ItemDTO getItem(String code) {
+    public ItemDTO getItem(Connection connection, String code) {
         try {
-            Item item=itemDAO.get(code);
-            return new ItemDTO(item.getItemCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice(),item.getDiscountPercent());
+            Item item=itemDAO.get(connection, code);
+            return new ItemDTO(item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -70,10 +69,10 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public CustomerDTO getCustomer(String id) {
+    public CustomerDTO getCustomer(Connection connection, String id) {
         try {
-            Customer customer=customerDAO.get(id);
-            return new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact(),customer.getNic());
+            Customer customer=customerDAO.get(connection, id);
+            return new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -81,17 +80,17 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public boolean placeOrder(OrderDTO dto){
+    public boolean placeOrder(Connection con, OrderDTO dto){
         Connection connection=null;
         try{
-            connection=DatabaseConnection.getInstance().getConnection();
+            connection=con;
             connection.setAutoCommit(false);
-            boolean isOrderSaved = orderDAO.add(new Order(dto.getOrderId(), dto.getCustomerId(), dto.getOrderDate(), dto.getOrderTime(), dto.getCost()));
+            boolean isOrderSaved = orderDAO.add(connection, new Order(dto.getOrderId(), dto.getCustomerId(), dto.getOrderDate(), dto.getOrderTime(), dto.getCost()));
             if(isOrderSaved){
                 ArrayList<OrderDetailDTO> detailList=dto.getDetailList();
                 int affectedDetailRows =0;
                 for(OrderDetailDTO detailDTO : detailList) {
-                    boolean isDetailAdded = detailDAO.add(new OrderDetail(detailDTO.getOrderId(), detailDTO.getItemCode(), detailDTO.getOrderQty(), detailDTO.getDiscount(), detailDTO.getPrice()));
+                    boolean isDetailAdded = detailDAO.add(connection, new OrderDetail(detailDTO.getOrderId(), detailDTO.getItemCode(), detailDTO.getUnitPrice(), detailDTO.getOrderQty(), detailDTO.getPrice()));
                     if(isDetailAdded){
                         affectedDetailRows++;
                     }else{
@@ -99,22 +98,22 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
                     }
                 }
                 System.out.println(detailList.size()+"-->"+ affectedDetailRows);
-                boolean isOrderDetailSaved = (detailList.size()==affectedDetailRows);
+                boolean isOrderDetailSaved = (detailList.size() == affectedDetailRows);
                 if(isOrderDetailSaved){
-                    int affectedItems=0;
+                    int affectedItemRows=0;
                     for(OrderDetailDTO detailDTO : detailList) {
-                        Item item=itemDAO.get(detailDTO.getItemCode());
+                        Item item=itemDAO.get(connection, detailDTO.getItemCode());
                         item.setQtyOnHand(item.getQtyOnHand()-detailDTO.getOrderQty());
-                        boolean isUpdated = itemDAO.update(item);
-                        if(isUpdated){
-                            affectedItems++;
+                        boolean isItemUpdated = itemDAO.update(connection, item);
+                        if(isItemUpdated){
+                            affectedItemRows++;
                         }else{
                             return false;
                         }
                     }
-                    System.out.println(detailList.size()+"-->"+ affectedItems);
-                    boolean isItemUpdated = (detailList.size()== affectedItems);
-                    if(isItemUpdated){
+                    System.out.println(detailList.size()+"-->"+ affectedItemRows);
+                    boolean isAllItemsUpdated = (detailList.size() == affectedItemRows);
+                    if(isAllItemsUpdated){
                         connection.commit();
                         return true;
                     }else{
