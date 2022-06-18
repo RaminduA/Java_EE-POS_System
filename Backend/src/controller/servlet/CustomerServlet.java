@@ -65,7 +65,7 @@ public class CustomerServlet extends HttpServlet {
 
                 case "SEARCH":
                     JsonObject reqData = jsonReq.getJsonObject("data");
-                    String customerId = reqData.getString("customerId");
+                    String customerId = reqData.getString("id");
                     CustomerDTO customerDTO = customerBO.getCustomer(connection,customerId);
 
                     if (customerDTO!=null) {
@@ -113,12 +113,51 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter writer = resp.getWriter();
+
         try {
             Connection connection = dataSource.getConnection();
 
+            JsonReader reader = Json.createReader(req.getReader());
+            JsonObject jsonReq = reader.readObject();
+            JsonObject reqData = jsonReq.getJsonObject("data");
+
+            CustomerDTO customerDTO = new CustomerDTO(
+                    reqData.getString("id"),
+                    reqData.getString("name"),
+                    reqData.getString("address"),
+                    reqData.getString("contact")
+            );
+            boolean isCustomerAdded = customerBO.addCustomer(connection, customerDTO);
+
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+
+            if(isCustomerAdded) {
+                jsonResp.add("status",resp.getStatus());
+                jsonResp.add("message","Customer Added Successfully !!!");
+
+            } else{
+                jsonResp.add("status",HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                jsonResp.add("message","Customer Saving Failed !!!");
+
+            }
+            jsonResp.add("data","");
+            writer.print(jsonResp.build());
+
             connection.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
+
+            JsonObjectBuilder jsonError = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonError.add("status",HttpServletResponse.SC_BAD_REQUEST);
+            jsonError.add("message","Error");
+            jsonError.add("data",e.getLocalizedMessage());
+
+            writer.print(jsonError.build());
         }
     }
 
