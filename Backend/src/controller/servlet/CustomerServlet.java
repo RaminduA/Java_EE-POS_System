@@ -97,8 +97,17 @@ public class CustomerServlet extends HttpServlet {
             }
 
             connection.close();
-        } catch (SQLException e) {
+
+        }catch (SQLException e){
             e.printStackTrace();
+
+            JsonObjectBuilder jsonError = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonError.add("status",HttpServletResponse.SC_BAD_REQUEST);
+            jsonError.add("message","Error");
+            jsonError.add("data",e.getLocalizedMessage());
+
+            writer.print(jsonError.build());
         }
     }
 
