@@ -14,6 +14,17 @@ public class CustomerBOImpl implements CustomerBO {
     private final CustomerDAO customerDAO=(CustomerDAO)DAOFactory.getInstance().getDAO(DAOFactory.DAOType.CUSTOMER);
 
     @Override
+    public CustomerDTO getCustomer(Connection connection, String id) {
+        try {
+            Customer customer = customerDAO.get(connection, id);
+            return new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean addCustomer(Connection connection, CustomerDTO dto) {
         try {
             return customerDAO.add(connection, new Customer(dto.getCustomerId(),dto.getName(),dto.getAddress(),dto.getContact()));
