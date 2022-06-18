@@ -25,15 +25,15 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     @Override
     public OrderDTO getOrder(Connection connection, String id) {
         try {
-            Order order=orderDAO.get(id);
+            Order order=orderDAO.get(connection, id);
             ArrayList<OrderDetail> details=detailDAO.getAll(connection,id);
             ArrayList<OrderDetailDTO> detailList=new ArrayList<>();
             for(OrderDetail detail : details) {
                 detailList.add(new OrderDetailDTO(
                         detail.getOrderId(),
                         detail.getItemCode(),
+                        detail.getUnitPrice(),
                         detail.getOrderQty(),
-                        detail.getDiscount(),
                         detail.getPrice()
                 ));
             }
@@ -48,7 +48,7 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     public ArrayList<OrderDTO> getAllOrders(Connection connection) {
         ArrayList<OrderDTO> orders=new ArrayList<>();
         try {
-            ArrayList<Order> orderList=orderDAO.getAll();
+            ArrayList<Order> orderList=orderDAO.getAll(connection);
             for (Order order : orderList) {
                 ArrayList<OrderDetail> details=detailDAO.getAll(connection, order.getOrderId());
                 ArrayList<OrderDetailDTO> detailList=new ArrayList<>();
@@ -56,8 +56,8 @@ public class ManageOrderBOImpl implements ManageOrderBO {
                     detailList.add(new OrderDetailDTO(
                             detail.getOrderId(),
                             detail.getItemCode(),
+                            detail.getUnitPrice(),
                             detail.getOrderQty(),
-                            detail.getDiscount(),
                             detail.getPrice()
                     ));
                 }
@@ -73,7 +73,7 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     public OrderDetailDTO getOrderDetail(Connection connection, String orderId, String itemCode) {
         try {
             OrderDetail detail=detailDAO.get(connection,orderId,itemCode);
-            return new OrderDetailDTO(detail.getOrderId(),detail.getItemCode(),detail.getOrderQty(),detail.getDiscount(),detail.getPrice());
+            return new OrderDetailDTO(detail.getOrderId(),detail.getItemCode(),detail.getUnitPrice(),detail.getOrderQty(),detail.getPrice());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -81,9 +81,9 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     }
 
     @Override
-    public boolean updateOrder(OrderDTO dto) {
+    public boolean updateOrder(Connection connection, OrderDTO dto) {
         try {
-            return orderDAO.update(new Order(dto.getOrderId(),dto.getCustomerId(),dto.getOrderDate(),dto.getOrderTime(),dto.getCost()));
+            return orderDAO.update(connection, new Order(dto.getOrderId(),dto.getCustomerId(),dto.getOrderDate(),dto.getOrderTime(),dto.getCost()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -91,29 +91,29 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     }
 
     @Override
-    public boolean deleteOrder(String id) {
+    public boolean deleteOrder(Connection con, String id) {
         Connection connection=null;
         try{
-            connection= DatabaseConnection.getInstance().getConnection();
+            connection=con;
             connection.setAutoCommit(false);
-            Order order = orderDAO.get(id);
+            Order order = orderDAO.get(connection, id);
             ArrayList<OrderDetail> detailList=detailDAO.getAll(connection,id);
-            boolean isOrderDeleted = orderDAO.delete(id);
+            boolean isOrderDeleted = orderDAO.delete(connection, id);
             if(isOrderDeleted){
-                int affectedItems =0;
+                int affectedItemRows =0;
                 for(OrderDetail detail : detailList) {
-                    Item item=itemDAO.get(detail.getItemCode());
+                    Item item=itemDAO.get(connection, detail.getItemCode());
                     item.setQtyOnHand(item.getQtyOnHand()+detail.getOrderQty());
-                    boolean isUpdated = itemDAO.update(item);
-                    if(isUpdated){
-                        affectedItems++;
+                    boolean isItemUpdated = itemDAO.update(connection, item);
+                    if(isItemUpdated){
+                        affectedItemRows++;
                     }else{
                         return false;
                     }
                 }
-                System.out.println(detailList.size()+"-->"+ affectedItems);
-                boolean isItemUpdated = (detailList.size()== affectedItems);
-                if(isItemUpdated){
+                System.out.println(detailList.size()+"-->"+ affectedItemRows);
+                boolean isAllItemsUpdated = (detailList.size() == affectedItemRows);
+                if(isAllItemsUpdated){
                     connection.commit();
                     return true;
                 }else{
@@ -138,7 +138,7 @@ public class ManageOrderBOImpl implements ManageOrderBO {
     }
 
     @Override
-    public boolean updateOrderDetail(OrderDTO dto, OrderDetailDTO detailDTO) {
+    public boolean updateOrderDetail(Connection connection, OrderDTO dto, OrderDetailDTO detailDTO) {
         return false;
     }
 
@@ -151,13 +151,13 @@ public class ManageOrderBOImpl implements ManageOrderBO {
             Order order=orderDAO.get(connection,detailDTO.getOrderId());
             double newCost=order.getCost()-detailDTO.getPrice();
             order.setCost(newCost);
-            boolean isOrderUpdated = orderDAO.update(order);
+            boolean isOrderUpdated = orderDAO.update(connection, order);
             if(isOrderUpdated){
                 boolean isOrderDetailDeleted = detailDAO.delete(connection,detailDTO.getOrderId(),detailDTO.getItemCode());
                 if(isOrderDetailDeleted){
-                    Item item=itemDAO.get(detailDTO.getItemCode());
+                    Item item=itemDAO.get(connection, detailDTO.getItemCode());
                     item.setQtyOnHand(item.getQtyOnHand()+detailDTO.getOrderQty());
-                    boolean isItemUpdated = itemDAO.update(item);
+                    boolean isItemUpdated = itemDAO.update(connection, item);
                     if(isItemUpdated){
                         connection.commit();
                         return true;
