@@ -5,10 +5,7 @@ import bo.custom.CustomerBO;
 import dto.CustomerDTO;
 
 import javax.annotation.Resource;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
@@ -42,6 +40,26 @@ public class CustomerServlet extends HttpServlet {
             switch (option){
 
                 case "GET-ALL":
+                    ArrayList<CustomerDTO> allCustomers = customerBO.getAllCustomers(connection);
+                    JsonArrayBuilder responseData = Json.createArrayBuilder();
+
+                    for (CustomerDTO customer : allCustomers) {
+                        JsonObjectBuilder jsonCustomer = Json.createObjectBuilder();
+                        jsonCustomer.add("id",customer.getCustomerId());
+                        jsonCustomer.add("name",customer.getName());
+                        jsonCustomer.add("address",customer.getAddress());
+                        jsonCustomer.add("contact",customer.getContact());
+
+                        responseData.add(jsonCustomer.build());
+                    }
+
+                    JsonObjectBuilder jsonResponse = Json.createObjectBuilder();
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    jsonResponse.add("status",resp.getStatus());
+                    jsonResponse.add("message","Done");
+                    jsonResponse.add("data",responseData.build());
+
+                    writer.print(jsonResponse.build());
 
                     break;
 
