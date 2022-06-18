@@ -14,6 +14,17 @@ public class ItemBOImpl implements ItemBO {
     private final ItemDAO itemDAO=(ItemDAO)DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ITEM);
 
     @Override
+    public ItemDTO getItem(Connection connection, String code) {
+        try {
+            Item item = itemDAO.get(connection, code);
+            return new ItemDTO(item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean addItem(Connection connection, ItemDTO dto) {
         try {
             return itemDAO.add(connection, new Item(dto.getItemCode(),dto.getName(),dto.getUnitPrice(),dto.getQtyOnHand()));
