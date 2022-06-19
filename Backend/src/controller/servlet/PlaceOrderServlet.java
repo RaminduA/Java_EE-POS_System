@@ -2,6 +2,7 @@ package controller.servlet;
 
 import bo.BOFactory;
 import bo.custom.PlaceOrderBO;
+import dto.CustomerDTO;
 import dto.ItemDTO;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
@@ -54,7 +55,7 @@ public class PlaceOrderServlet extends HttpServlet {
                     break;
 
                 case "GET-CUSTOMER":
-
+                    writer.print(getCustomer(resp,connection,jsonReq.getJsonObject("data")));
                     break;
 
                 case "GET-ITEM":
@@ -199,6 +200,25 @@ public class PlaceOrderServlet extends HttpServlet {
         String orderId = placeOrderBO.getOrderId(connection);
         JsonObjectBuilder respData = Json.createObjectBuilder();
         respData.add("id",orderId);
+
+        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        jsonResp.add("status",resp.getStatus());
+        jsonResp.add("message","Done");
+        jsonResp.add("data",respData.build());
+
+        return jsonResp.build();
+    }
+
+    private JsonObject getCustomer(HttpServletResponse resp, Connection connection, JsonObject reqData) {
+        String customerId = reqData.getString("id");
+        CustomerDTO customerDTO = placeOrderBO.getCustomer(connection, customerId);
+
+        JsonObjectBuilder respData = Json.createObjectBuilder();
+        respData.add("id",customerDTO.getCustomerId());
+        respData.add("name",customerDTO.getName());
+        respData.add("address",customerDTO.getAddress());
+        respData.add("contact",customerDTO.getContact());
 
         JsonObjectBuilder jsonResp = Json.createObjectBuilder();
         resp.setStatus(HttpServletResponse.SC_OK);
