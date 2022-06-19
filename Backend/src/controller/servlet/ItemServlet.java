@@ -161,12 +161,47 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter writer = resp.getWriter();
+
         try {
             Connection connection = dataSource.getConnection();
 
+            JsonReader reader = Json.createReader(req.getReader());
+            JsonObject jsonReq = reader.readObject();
+            JsonObject reqData = jsonReq.getJsonObject("data");
+
+            ItemDTO itemDTO = new ItemDTO(
+                    reqData.getString("code"),
+                    reqData.getString("name"),
+                    Double.parseDouble(reqData.get("unit-price").toString()),
+                    reqData.getInt("quantity")
+            );
+            boolean isItemUpdated = itemBO.updateItem(connection, itemDTO);
+
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+
+            if(isItemUpdated) {
+                jsonResp.add("status",resp.getStatus());
+                jsonResp.add("message","Item Updated Successfully !!!");
+            } else{
+                jsonResp.add("status",HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                jsonResp.add("message","Item Updating Failed !!!");
+            }
+            jsonResp.add("data","");
+            writer.print(jsonResp.build());
+
             connection.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
+
+            JsonObjectBuilder jsonError = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonError.add("status",HttpServletResponse.SC_BAD_REQUEST);
+            jsonError.add("messagr","Error");
+            jsonError.add("data",e.getLocalizedMessage());
         }
     }
 
