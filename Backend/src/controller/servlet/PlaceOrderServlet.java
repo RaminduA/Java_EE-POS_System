@@ -42,11 +42,11 @@ public class PlaceOrderServlet extends HttpServlet {
             switch (option){
 
                 case "GET-ALL-CUSTOMER-IDS":
-                    writer.print(detAllCustomerIds(resp,connection,jsonReq.getJsonObject("data")));
+                    writer.print(detAllCustomerIds(resp,connection));
                     break;
 
                 case "GET-ALL-ITEM-CODES":
-
+                    writer.print(detAllItemCodes(resp,connection));
                     break;
 
                 case "GET-ORDER-ID":
@@ -155,7 +155,7 @@ public class PlaceOrderServlet extends HttpServlet {
         }
     }
 
-    private JsonObject detAllCustomerIds(HttpServletResponse resp, Connection connection, JsonObject data) {
+    private JsonObject detAllCustomerIds(HttpServletResponse resp, Connection connection) {
         ArrayList<String> allCustomerIds = placeOrderBO.getAllCustomerIds(connection);
         JsonArrayBuilder respData = Json.createArrayBuilder();
 
@@ -164,6 +164,26 @@ public class PlaceOrderServlet extends HttpServlet {
             jsonCID.add("id",customerId);
 
             respData.add(jsonCID.build());
+        }
+
+        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        jsonResp.add("status",resp.getStatus());
+        jsonResp.add("message","Done");
+        jsonResp.add("data",respData.build());
+
+        return jsonResp.build();
+    }
+
+    private JsonObject detAllItemCodes(HttpServletResponse resp, Connection connection) {
+        ArrayList<String> allItemCodes = placeOrderBO.getAllItemCodes(connection);
+        JsonArrayBuilder respData = Json.createArrayBuilder();
+
+        for (String itemCode : allItemCodes) {
+            JsonObjectBuilder jsonIC = Json.createObjectBuilder();
+            jsonIC.add("code",itemCode);
+
+            respData.add(jsonIC.build());
         }
 
         JsonObjectBuilder jsonResp = Json.createObjectBuilder();
