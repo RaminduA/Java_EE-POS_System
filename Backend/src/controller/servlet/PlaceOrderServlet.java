@@ -2,6 +2,7 @@ package controller.servlet;
 
 import bo.BOFactory;
 import bo.custom.PlaceOrderBO;
+import dto.ItemDTO;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
 
@@ -41,7 +42,7 @@ public class PlaceOrderServlet extends HttpServlet {
             switch (option){
 
                 case "GET-ALL-CUSTOMER-IDS":
-
+                    writer.print(detAllCustomerIds(resp,connection,jsonReq.getJsonObject("data")));
                     break;
 
                 case "GET-ALL-ITEM-CODES":
@@ -118,7 +119,7 @@ public class PlaceOrderServlet extends HttpServlet {
             writer.print(jsonResp.build());
 
             connection.close();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -152,5 +153,25 @@ public class PlaceOrderServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private JsonObject detAllCustomerIds(HttpServletResponse resp, Connection connection, JsonObject data) {
+        ArrayList<String> allCustomerIds = placeOrderBO.getAllCustomerIds(connection);
+        JsonArrayBuilder respData = Json.createArrayBuilder();
+
+        for (String customerId : allCustomerIds) {
+            JsonObjectBuilder jsonCID = Json.createObjectBuilder();
+            jsonCID.add("id",customerId);
+
+            respData.add(jsonCID.build());
+        }
+
+        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        jsonResp.add("status",resp.getStatus());
+        jsonResp.add("message","Done");
+        jsonResp.add("data",respData.build());
+
+        return jsonResp.build();
     }
 }
