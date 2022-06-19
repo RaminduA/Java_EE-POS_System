@@ -28,10 +28,41 @@ public class PlaceOrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter writer = resp.getWriter();
+
         try {
             Connection connection = dataSource.getConnection();
 
+            JsonReader reader = Json.createReader(req.getReader());
+            JsonObject jsonReq = reader.readObject();
+            String option = jsonReq.getString("option");
+
+            switch (option){
+
+                case "GET-ALL-CUSTOMER-IDS":
+
+                    break;
+
+                case "GET-ALL-ITEM-CODES":
+
+                    break;
+
+                case "GET-ORDER-ID":
+
+                    break;
+
+                case "GET-CUSTOMER":
+
+                    break;
+
+                case "GET-ITEM":
+
+                    break;
+            }
+
             connection.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
