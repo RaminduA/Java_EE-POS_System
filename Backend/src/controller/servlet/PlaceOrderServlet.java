@@ -59,7 +59,7 @@ public class PlaceOrderServlet extends HttpServlet {
                     break;
 
                 case "GET-ITEM":
-
+                    writer.print(getItem(resp,connection,jsonReq.getJsonObject("data")));
                     break;
             }
 
@@ -219,6 +219,25 @@ public class PlaceOrderServlet extends HttpServlet {
         respData.add("name",customerDTO.getName());
         respData.add("address",customerDTO.getAddress());
         respData.add("contact",customerDTO.getContact());
+
+        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        jsonResp.add("status",resp.getStatus());
+        jsonResp.add("message","Done");
+        jsonResp.add("data",respData.build());
+
+        return jsonResp.build();
+    }
+
+    private JsonObject getItem(HttpServletResponse resp, Connection connection, JsonObject reqData) {
+        String itemCode = reqData.getString("code");
+        ItemDTO itemDTO = placeOrderBO.getItem(connection, itemCode);
+
+        JsonObjectBuilder respData = Json.createObjectBuilder();
+        respData.add("code",itemDTO.getItemCode());
+        respData.add("name",itemDTO.getName());
+        respData.add("unit-price",itemDTO.getUnitPrice());
+        respData.add("quantity",itemDTO.getQtyOnHand());
 
         JsonObjectBuilder jsonResp = Json.createObjectBuilder();
         resp.setStatus(HttpServletResponse.SC_OK);
