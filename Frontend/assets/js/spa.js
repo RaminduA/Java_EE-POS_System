@@ -14,6 +14,12 @@ $("#linkHome").click(function (){
     $("#itemContent").css("display","none");
     $("#customerContent").css("display","none");
     $("#orderContent").css("display","none");
+
+    $("#linkHome").removeClass("active");
+    $("#linkCustomer").removeClass("active");
+    $("#linkItem").removeClass("active");
+    $("#linkOrder").removeClass("active");
+    $("#linkHome").addClass("active");
 });
 
 $("#linkLogo").click(function (){
@@ -21,6 +27,12 @@ $("#linkLogo").click(function (){
     $("#itemContent").css("display","none");
     $("#customerContent").css("display","none");
     $("#orderContent").css("display","none");
+
+    $("#linkHome").removeClass("active");
+    $("#linkCustomer").removeClass("active");
+    $("#linkItem").removeClass("active");
+    $("#linkOrder").removeClass("active");
+    $("#linkHome").addClass("active");
 });
 
 $("#linkCustomer").click(function (){
@@ -28,6 +40,12 @@ $("#linkCustomer").click(function (){
     $("#dashboardContent").css("display","none");
     $("#itemContent").css("display","none");
     $("#orderContent").css("display","none");
+
+    $("#linkHome").removeClass("active");
+    $("#linkCustomer").removeClass("active");
+    $("#linkItem").removeClass("active");
+    $("#linkOrder").removeClass("active");
+    $("#linkCustomer").addClass("active");
 
 });
 
@@ -37,6 +55,12 @@ $("#linkItem").click(function (){
     $("#dashboardContent").css("display","none");
     $("#orderContent").css("display","none");
 
+    $("#linkHome").removeClass("active");
+    $("#linkCustomer").removeClass("active");
+    $("#linkItem").removeClass("active");
+    $("#linkOrder").removeClass("active");
+    $("#linkItem").addClass("active");
+
 });
 
 $("#linkOrder").click(function (){
@@ -44,5 +68,11 @@ $("#linkOrder").click(function (){
     $("#dashboardContent").css("display","none");
     $("#itemContent").css("display","none");
     $("#customerContent").css("display","none");
+
+    $("#linkHome").removeClass("active");
+    $("#linkCustomer").removeClass("active");
+    $("#linkItem").removeClass("active");
+    $("#linkOrder").removeClass("active");
+    $("#linkOrder").addClass("active");
 
 });
