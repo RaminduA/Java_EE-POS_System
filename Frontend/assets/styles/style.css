@@ -201,6 +201,28 @@ header
     color: #ed563b!important;
 }
 
+.logo:hover>em {
+    color: #fff !important;
+    transition-property: color;
+    transition-duration: 600ms;
+}
+
+.logo {
+    transition-property: color;
+    transition-duration: 600ms;
+}
+
+.logo>em {
+    transition-property: color;
+    transition-duration: 600ms;
+}
+
+.logo:hover {
+    color: #ed563b !important;
+    transition-property: color;
+    transition-duration: 600ms;
+}
+
 .header-area {
     position: absolute;
     top: 0px;
