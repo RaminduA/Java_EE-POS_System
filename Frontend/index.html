@@ -26,7 +26,7 @@
 <!-- ***** Preloader End ***** -->
 
 <!-- ***** Header Area Start ***** -->
-<header class="header-area header-sticky">
+<header style="position:fixed;" class="header-area header-sticky">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -81,11 +81,10 @@
         </div>
 
         <div class="main-banner" id="customerContent">
-            <div class="row" style="height: 80px; background-color: #1a1e21"></div>
-
-            <section class="container-fluid mt-3">
-                <section class="row mt-3 justify-content-around">
-                    <div class="col-12 col-md-4">
+            <div class="row" style="position: sticky; top: 0; height: 80px; background-color: #1a1e21"></div>
+            <div class="row">
+                <div class="col-4 mx-3">
+                    <div class="row">
                         <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
                             <h1 class="h1 mb-3">Customer Manage</h1>
                             <div class="mb-3">
@@ -97,45 +96,145 @@
                             <button id="btnCustSaveOrUpdate" class="btn btn-success">Save</button>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5">
-                        <div class="mb-3">
-                            <label class="form-label" for="txtCusID">Customer ID</label>
-                            <input class="form-control" id="txtCusID" placeholder="Customer ID" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="txtCusName">Customer Name</label>
-                            <input class="form-control" id="txtCusName" placeholder="Customer Name" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="txtCusAddress">Customer Address</label>
-                            <input class="form-control" id="txtCusAddress" placeholder="Customer Address" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="txtCusContact">Customer Contact</label>
-                            <input class="form-control" id="txtCusContact" placeholder="Customer Contact" type="text">
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusID">Customer ID</label>
+                                <input class="form-control" id="txtCusID" placeholder="Customer ID" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusName">Customer Name</label>
+                                <input class="form-control" id="txtCusName" placeholder="Customer Name" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusAddress">Customer Address</label>
+                                <input class="form-control" id="txtCusAddress" placeholder="Customer Address" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="txtCusContact">Customer Contact</label>
+                                <input class="form-control" id="txtCusContact" placeholder="Customer Contact" type="text">
+                            </div>
                         </div>
                     </div>
-                </section>
-                <section class="row mt-4">
-                    <div class="col">
-                        <table class="table table-hover">
-                            <thead class="bg-dark text-white">
+                </div>
+                <div class="col-7 mx-4">
+                    <div id="customer-table" class="table-responsive custom-table-responsive">
+                        <table class="table custom-table">
+                            <thead>
                             <tr>
-                                <th>Customer ID</th>
-                                <th>Customer Name</th>
-                                <th>Customer Address</th>
-                                <th>Customer Contact.</th>
+                                <th scope="col">Customer ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Contact</th>
                             </tr>
                             </thead>
-                            <tbody id="customerTable">
-
+                            <tbody>
+                            <tr scope="row">
+                                <td><a href="#">James Yates</a></td>
+                                <td>
+                                    Web Designer
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+63 983 0962 971</td>
+                                <td>NY University</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Matthew Wasil</a></td>
+                                <td>
+                                    Graphic Designer
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+02 020 3994 929</td>
+                                <td>London College</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Sampson Murphy</a></td>
+                                <td>
+                                    Mobile Dev
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+01 352 1125 0192</td>
+                                <td>Senior High</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Gaspar Semenov</a></td>
+                                <td>
+                                    Illustrator
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+92 020 3994 929</td>
+                                <td>College</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Matthew Wasil</a></td>
+                                <td>
+                                    Graphic Designer
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+02 020 3994 929</td>
+                                <td>London College</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Sampson Murphy</a></td>
+                                <td>
+                                    Mobile Dev
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+01 352 1125 0192</td>
+                                <td>Senior High</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Gaspar Semenov</a></td>
+                                <td>
+                                    Illustrator
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+92 020 3994 929</td>
+                                <td>College</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Matthew Wasil</a></td>
+                                <td>
+                                    Graphic Designer
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+02 020 3994 929</td>
+                                <td>London College</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Sampson Murphy</a></td>
+                                <td>
+                                    Mobile Dev
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+01 352 1125 0192</td>
+                                <td>Senior High</td>
+                            </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
+                            <tr>
+                                <td><a href="#">Gaspar Semenov</a></td>
+                                <td>
+                                    Illustrator
+                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                </td>
+                                <td>+92 020 3994 929</td>
+                                <td>College</td>
+                            </tr>
 
                             </tbody>
                         </table>
-                    </div>
-                </section>
 
-            </section>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="main-banner" id="itemContent">
