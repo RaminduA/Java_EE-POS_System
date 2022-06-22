@@ -283,3 +283,17 @@ function isOrderItemExists(itmCode) {
     }
     return false;
 }
+
+
+let Clock_Date = $("#Clock_Date")
+let Clock_Time = $("#Clock_Time")
+
+Clock_Date.innerText = moment(new Date()).format("dddd D MMMM YYYY")
+Clock_Time.innerText = moment(new Date()).format("LTS")
+setInterval(
+    function () {
+        Clock_Date.innerText = moment(new Date()).format("dddd D MMMM YYYY")
+        Clock_Time.innerText = moment(new Date()).format("LTS")
+    },
+    1000
+);
