@@ -1010,3 +1010,66 @@ tables
     font-size: 1.6em;
     font-weight: bold;
 }
+
+/*Large Clock Page Container*/
+.clock-container {
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 30%;
+    width: 100%;
+}
+/*Large Clock Page Animation*/
+#Clock_Date,#Clock_Time{
+    margin: 0;
+    transition: all 0.3s ease-in-out;
+}
+/*Large Clock Page Date*/
+#PageClock_Date{
+    color: #fff;
+    font-family: cursive;
+    font-size: 36px;
+    text-shadow: 0 2px 2px #000;
+}
+/*Large Clock Page Time*/
+#Clock_Time {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    font-family: cursive;
+    text-shadow: 0 5px 3px #000;
+}
+#Clock_Date:hover,#Clock_Time:hover{
+    color:#fff;
+}
+@media screen and (max-width: 1190px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 30px;
+    }
+}
+@media screen and (max-width: 900px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 28px;
+    }
+}
+@media screen and (max-width: 750px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 26px;
+    }
+}
+@media screen and (max-width: 550px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 20px;
+    }
+}
+@media screen and (max-width: 400px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 15px;
+    }
+}
+@media screen and (max-width: 260px) {
+    #Clock_Time,#Clock_Date {
+        font-size: 10px;
+    }
+}
