@@ -171,6 +171,70 @@ body {
     color: #fff;
 }
 
+.middle-button {
+    --c1: #ed563b;
+    --c2: #fff;
+    --c3: #ff2600;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-60%);
+    color: var(--c2);
+    font-size: 17px;
+    /*border: 0.3em solid var(--c1);*/
+    background-color: var(--c1);
+    border-radius: 0.5em;
+    width: 12em;
+    height: 3em;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: sans-serif;
+    letter-spacing: 0.2em;
+    text-align: center;
+    line-height: 3em;
+    overflow: hidden;
+    z-index: 1;
+    transition: 0.5s;
+    margin: 1em;
+}
+
+.middle-button span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background-color: var(--c2);
+    transform: translateY(150%);
+    border-radius: 50%;
+    left: calc((var(--n) - 1) * 25%);
+    transition: 0.5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -1;
+}
+
+.middle-button:hover {
+    color: var(--c3);
+    cursor: pointer;
+}
+
+.middle-button:hover span {
+    transform: translateY(0) scale(2);
+}
+
+.middle-button span:nth-child(1) {
+    --n: 1;
+}
+
+.middle-button span:nth-child(2) {
+    --n: 2;
+}
+
+.middle-button span:nth-child(3) {
+    --n: 3;
+}
+
+.middle-button span:nth-child(4) {
+    --n: 4;
+}
+
 
 /* 
 ---------------------------------------------
