@@ -266,36 +266,46 @@
             <div class="row page-header-area"></div>
             <div class="row">
                 <div class="col-4 mx-3">
-                    <div class="row">
-                        <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
-                            <h1 class="h1 mb-3">Item Manage</h1>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtItemSearch">Search Item</label>
-                                <input class="form-control" id="txtItemSearch" placeholder="Item Code, Name, Price, Quantity" type="text">
+                    <div id="item-field-container">
+                        <img src="assets/images/image.jpg" alt="">
+                        <div class="row">
+                            <h1 class="h1 mb-3">Manage <em> Items</em></h1>
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <form id="item-search-form">
+                                    <div class="textfield">
+                                        <label class="form-label" for="txtItemSearch">Search Item</label>
+                                        <input class="form-control" id="txtItemSearch" placeholder="Item Code" type="text">
+                                    </div>
+                                    <button id="btnItemSearch" class="btn btn-primary">Search</button>
+                                </form>
                             </div>
-                            <button id="btnItemSearch" class="btn btn-primary">Search</button>
-                            <button id="btnItemDelete" class="btn btn-danger">Delete</button>
-                            <button id="btnItemSaveOrUpdate" class="btn btn-success">Save</button>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-5">
-                            <div class="mb-3">
-                                <label class="form-label" for="txtItemCode">Item Code</label>
-                                <input class="form-control" id="txtItemCode" placeholder="Item Code" type="text">
+                        <div class="row">
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <form id="item-detail-form">
+                                    <div class="row">
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtItemCode">Item Code</label>
+                                            <input class="form-control" id="txtItemCode" placeholder="Item Code" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtItemName">Item Name</label>
+                                            <input class="form-control" id="txtItemName" placeholder="Item Name" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtItemPrice">Item Price</label>
+                                            <input class="form-control" id="txtItemPrice" placeholder="Item Price" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtItemQty">Item Quantity</label>
+                                            <input class="form-control" id="txtItemQty" placeholder="Item Quantity" type="text">
+                                        </div>
+                                    </div>
+                                    <button id="btnItemDelete" class="btn btn-danger">Delete</button>
+                                    <button id="btnItemSaveOrUpdate" class="btn btn-success">Save</button>
+                                </form>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtItemName">Item Name</label>
-                                <input class="form-control" id="txtItemName" placeholder="Item Name" type="text">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtItemPrice">Item Price</label>
-                                <input class="form-control" id="txtItemPrice" placeholder="Item Price" type="text">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtItemQty">Item Quantity</label>
-                                <input class="form-control" id="txtItemQty" placeholder="Item Quantity" type="text">
-                            </div>
+
                         </div>
                     </div>
                 </div>
