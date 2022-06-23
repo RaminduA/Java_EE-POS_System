@@ -1077,38 +1077,45 @@ tables
 
 
 
-#customer-field-container>*{
+#customer-field-container>*,
+#item-field-container>*{
     position: relative;
     z-index: 1;
 }
 
-#customer-search-form>div{
+#customer-search-form>div,
+#item-search-form>div{
     display: inline-block;
     width: 65%;
     margin: 0 10px;
 }
 
-#customer-search-form{
+#customer-search-form,
+#item-search-form{
     display: flex;
     justify-content: space-evenly;
     align-items: end;
 }
 
-#customer-detail-form>.row>div{
+#customer-detail-form>.row>div,
+#item-detail-form>.row>div{
     display: inline-block;
     width: 43%;
 }
 
-#customer-detail-form>.row{
+#customer-detail-form>.row,
+#item-detail-form>.row{
     display: flex;
     justify-content: space-evenly;
 }
 
-#customer-detail-form>button{
+#customer-detail-form>button,
+#item-detail-form>button{
     margin: 0 5px;
 }
 
-#customer-field-container{
+#customer-field-container,
+#item-field-container{
     position: relative;
     background-color: #383c40;
     margin-top: 60px;
@@ -1116,7 +1123,8 @@ tables
     background-image: url("assets/images/image.jpg");
 }
 
-#customer-field-container>img{
+#customer-field-container>img,
+#item-field-container>img{
     position: absolute;
     left: 0;
     min-width: 100%;
@@ -1127,7 +1135,8 @@ tables
     z-index: 0;
 }
 
-#customer-field-container h1 {
+#customer-field-container h1,
+#item-field-container h1 {
     line-height: 80px;
     margin-top: 20px;
     text-align: center;
@@ -1141,7 +1150,8 @@ tables
     transition: color 0.7s ease 0s;
 }
 
-#customer-field-container h1>em {
+#customer-field-container h1>em,
+#item-field-container h1>em {
     line-height: 80px;
     font-style: normal;
     display: inline;
@@ -1153,7 +1163,9 @@ tables
 }
 
 #customer-search-form .textfield>label,
-#customer-detail-form .textfield>label{
+#customer-detail-form .textfield>label,
+#item-search-form .textfield>label,
+#item-detail-form .textfield>label{
     display: inline-block;
     color: #fff;
     font-size: 14px;
