@@ -88,36 +88,46 @@
             <div class="row page-header-area"></div>
             <div class="row">
                 <div class="col-4 mx-3">
-                    <div class="row">
-                        <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
-                            <h1 class="h1 mb-3">Customer Manage</h1>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtCusSearch">Search Customer</label>
-                                <input class="form-control" id="txtCusSearch" placeholder="Customer ID, Name, Address, Contact" type="text">
+                    <div id="customer-field-container">
+                        <img src="assets/images/image.jpg" alt="">
+                        <div class="row">
+                            <h1 class="h1 mb-3">Manage <em> Customers</em></h1>
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <form id="customer-search-form">
+                                    <div class="textfield">
+                                        <label class="form-label" for="txtCusSearch">Search Customer</label>
+                                        <input class="form-control" id="txtCusSearch" placeholder="Customer ID" type="text">
+                                    </div>
+                                    <button id="btnCustSearch" class="btn btn-primary">Search</button>
+                                </form>
                             </div>
-                            <button id="btnCustSearch" class="btn btn-primary">Search</button>
-                            <button id="btnCustDelete" class="btn btn-danger">Delete</button>
-                            <button id="btnCustSaveOrUpdate" class="btn btn-success">Save</button>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-5">
-                            <div class="mb-3">
-                                <label class="form-label" for="txtCusID">Customer ID</label>
-                                <input class="form-control" id="txtCusID" placeholder="Customer ID" type="text">
+                        <div class="row">
+                            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                                <form id="customer-detail-form">
+                                    <div class="row">
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtCusID">Customer ID</label>
+                                            <input class="form-control" id="txtCusID" placeholder="Customer ID" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtCusName">Customer Name</label>
+                                            <input class="form-control" id="txtCusName" placeholder="Customer Name" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtCusAddress">Customer Address</label>
+                                            <input class="form-control" id="txtCusAddress" placeholder="Customer Address" type="text">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label class="form-label" for="txtCusContact">Customer Contact</label>
+                                            <input class="form-control" id="txtCusContact" placeholder="Customer Contact" type="text">
+                                        </div>
+                                    </div>
+                                    <button id="btnCustDelete" class="btn btn-danger">Delete</button>
+                                    <button id="btnCustSaveOrUpdate" class="btn btn-success">Save</button>
+                                </form>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtCusName">Customer Name</label>
-                                <input class="form-control" id="txtCusName" placeholder="Customer Name" type="text">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtCusAddress">Customer Address</label>
-                                <input class="form-control" id="txtCusAddress" placeholder="Customer Address" type="text">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="txtCusContact">Customer Contact</label>
-                                <input class="form-control" id="txtCusContact" placeholder="Customer Contact" type="text">
-                            </div>
+
                         </div>
                     </div>
                 </div>
