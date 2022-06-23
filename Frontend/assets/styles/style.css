@@ -633,6 +633,7 @@ banner
     top: 0;
     height: 80px;
     background-color: #1a1e21;
+    z-index: 3;
 }
 
 #bg-video::-webkit-media-controls {
@@ -686,7 +687,7 @@ banner
 /*
 ---------------------------------------------
 footer
---------------------------------------------- 
+---------------------------------------------
 */
 footer {
     text-align: center;
@@ -709,10 +710,10 @@ footer p a:hover {
 
 
 
-/* 
+/*
 ---------------------------------------------
 preloader
---------------------------------------------- 
+---------------------------------------------
 */
 
 .js-preloader {
@@ -810,10 +811,10 @@ preloader
 }
 
 
-/* 
+/*
 ---------------------------------------------
 responsive
---------------------------------------------- 
+---------------------------------------------
 */
 
 
@@ -1072,4 +1073,90 @@ tables
     #Clock_Time,#Clock_Date {
         font-size: 10px;
     }
+}
+
+
+
+#customer-field-container>*{
+    position: relative;
+    z-index: 1;
+}
+
+#customer-search-form>div{
+    display: inline-block;
+    width: 65%;
+    margin: 0 10px;
+}
+
+#customer-search-form{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: end;
+}
+
+#customer-detail-form>.row>div{
+    display: inline-block;
+    width: 43%;
+}
+
+#customer-detail-form>.row{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#customer-detail-form>button{
+    margin: 0 5px;
+}
+
+#customer-field-container{
+    position: relative;
+    background-color: #383c40;
+    margin-top: 60px;
+    margin-left: 40px;
+    background-image: url("assets/images/image.jpg");
+}
+
+#customer-field-container>img{
+    position: absolute;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+#customer-field-container h1 {
+    line-height: 80px;
+    margin-top: 20px;
+    text-align: center;
+    display: inline;
+    letter-spacing: 1px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 800;
+    text-transform: uppercase;
+    float: left;
+    transition: color 0.7s ease 0s;
+}
+
+#customer-field-container h1>em {
+    line-height: 80px;
+    font-style: normal;
+    display: inline;
+    color: #ed563b;
+    font-size: 30px;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: color 0.7s ease 0s;
+}
+
+#customer-search-form .textfield>label,
+#customer-detail-form .textfield>label{
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
 }
