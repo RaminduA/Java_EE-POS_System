@@ -1172,3 +1172,13 @@ tables
     font-weight: 400;
     text-transform: uppercase;
 }
+
+.form-button-container{
+    display: flex;
+    justify-content: end;
+}
+
+.form-button-container>button{
+    margin-right: 20px;
+    margin-top: 10px;
+}
