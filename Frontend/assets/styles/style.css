@@ -614,7 +614,7 @@ banner
 
 .main-banner {
     position: relative;
-    background-color: #b4b1b1;
+    background-color: #3b3b3b;
 }
 
 #bg-video {
@@ -632,7 +632,7 @@ banner
     position: sticky;
     top: 0;
     height: 80px;
-    background-color: #1a1e21;
+    background-color: #0c0f13;
     z-index: 3;
 }
 
@@ -929,14 +929,22 @@ tables
 */
 
 
-#customer-table, #item-table{
+#customer-table-container, #item-table-container, #order-table-container{
     margin-top: 30px;
     margin-left: 30px;
     margin-bottom: 30px;
-    min-height: calc(100vh - 140px);
     background-color: #202024;
     padding: 3px;
 }
+
+#customer-table-container, #item-table-container{
+    min-height: calc(100vh - 140px);
+}
+
+#order-table-container{
+    min-height: calc(100vh - 140px - 100px);
+}
+
 .custom-table {
     min-width: 500px;
 }
@@ -1002,44 +1010,86 @@ tables
 }
 
 
-
-#txtDate{
-    font-size: 1.6em;
-    font-weight: bold;
+.order-id-container{
+    left: 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 40px;
 }
-#txtTime{
-    font-size: 1.6em;
-    font-weight: bold;
+.order-id-container>h1{
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #eee;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#order-id-lable{
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+#order-id-text{
+    margin-right: 40px;
+}
+
+
+.total-container{
+    left: 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 80px;
+}
+.total-container>h1{
+    position: relative;
+    display: inline-block;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    color: #eee;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#total-lable{
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+#total-text{
+    margin-right: 40px;
 }
 
 /*Large Clock Page Container*/
 .clock-container {
     left: 0;
-    position: absolute;
+    position: relative;
     text-align: center;
-    top: 30%;
     width: 100%;
+    height: 80px;
 }
 /*Large Clock Page Animation*/
 #Clock_Date,#Clock_Time{
-    margin: 0;
+    margin: 20px;
+    color: #eee;
+    font-size: 32px;
+    font-weight: 600;
+    text-transform: uppercase;
+    /*font-family: cursive;*/
+    /*text-shadow: 0 5px 3px #000;*/
     transition: all 0.3s ease-in-out;
 }
 /*Large Clock Page Date*/
-#PageClock_Date{
-    color: #fff;
-    font-family: cursive;
+#Clock_Date{
     font-size: 36px;
-    text-shadow: 0 2px 2px #000;
+    /*text-shadow: 0 2px 2px #000;*/
 }
 /*Large Clock Page Time*/
 #Clock_Time {
-    color: #fff;
     font-size: 36px;
-    font-weight: 700;
-    text-align: center;
-    font-family: cursive;
-    text-shadow: 0 5px 3px #000;
 }
 #Clock_Date:hover,#Clock_Time:hover{
     color:#fff;
@@ -1078,7 +1128,8 @@ tables
 
 
 #customer-field-container>*,
-#item-field-container>*{
+#item-field-container>*,
+#order-field-container>*{
     position: relative;
     z-index: 1;
 }
@@ -1097,14 +1148,9 @@ tables
     align-items: end;
 }
 
-#customer-detail-form>.row>div,
-#item-detail-form>.row>div{
-    display: inline-block;
-    width: 43%;
-}
-
 #customer-detail-form>.row,
-#item-detail-form>.row{
+#item-detail-form>.row,
+#order-detail-form>.row{
     display: flex;
     justify-content: space-evenly;
 }
@@ -1115,16 +1161,25 @@ tables
 }
 
 #customer-field-container,
-#item-field-container{
+#item-field-container,
+#order-field-container{
     position: relative;
     background-color: #383c40;
-    margin-top: 60px;
     margin-left: 40px;
-    background-image: url("assets/images/image.jpg");
+}
+
+#customer-field-container,
+#item-field-container{
+    margin-top: 60px;
+}
+
+#order-field-container{
+    margin-top: 40px;
 }
 
 #customer-field-container>img,
-#item-field-container>img{
+#item-field-container>img,
+#order-field-container>img{
     position: absolute;
     left: 0;
     min-width: 100%;
@@ -1136,9 +1191,8 @@ tables
 }
 
 #customer-field-container h1,
-#item-field-container h1 {
-    line-height: 80px;
-    margin-top: 20px;
+#item-field-container h1,
+#order-field-container h1 {
     text-align: center;
     display: inline;
     letter-spacing: 1px;
@@ -1150,9 +1204,20 @@ tables
     transition: color 0.7s ease 0s;
 }
 
-#customer-field-container h1>em,
-#item-field-container h1>em {
+#customer-field-container h1,
+#item-field-container h1{
     line-height: 80px;
+    margin-top: 20px;
+}
+
+#order-field-container h1 {
+    line-height: 40px;
+    margin-top: 10px;
+}
+
+#customer-field-container h1>em,
+#item-field-container h1>em,
+#order-field-container h1>em {
     font-style: normal;
     display: inline;
     color: #ed563b;
@@ -1162,10 +1227,21 @@ tables
     transition: color 0.7s ease 0s;
 }
 
-#customer-search-form .textfield>label,
-#customer-detail-form .textfield>label,
-#item-search-form .textfield>label,
-#item-detail-form .textfield>label{
+#customer-field-container h1>em,
+#item-field-container h1>em{
+    line-height: 80px;
+}
+
+#order-field-container h1>em {
+    line-height: 40px;
+}
+
+.textfield{
+    display: inline-block;
+    width: 43%;
+}
+
+.textfield>label{
     display: inline-block;
     color: #fff;
     font-size: 14px;
