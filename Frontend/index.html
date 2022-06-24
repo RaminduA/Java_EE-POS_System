@@ -125,7 +125,8 @@
                                     </div>
                                     <div class="form-button-container">
                                         <button id="btnCustDelete" class="btn btn-danger">Delete</button>
-                                        <button id="btnCustSaveOrUpdate" class="btn btn-success">Save</button>
+                                        <button id="btnCustUpdate" class="btn btn-primary">Update</button>
+                                        <button id="btnCustSave" class="btn btn-success">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -134,8 +135,8 @@
                     </div>
                 </div>
                 <div class="col-7 mx-4">
-                    <div id="customer-table" class="table-responsive custom-table-responsive">
-                        <table class="table custom-table">
+                    <div id="customer-table-container" class="table-responsive custom-table-responsive">
+                        <table id="customer-table" class="table custom-table">
                             <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -305,7 +306,8 @@
                                     </div>
                                     <div class="form-button-container">
                                         <button id="btnItemDelete" class="btn btn-danger">Delete</button>
-                                        <button id="btnItemSaveOrUpdate" class="btn btn-success">Save</button>
+                                        <button id="btnItemUpdate" class="btn btn-primary">Update</button>
+                                        <button id="btnItemSave" class="btn btn-success">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -314,8 +316,8 @@
                     </div>
                 </div>
                 <div class="col-7 mx-4">
-                    <div id="item-table" class="table-responsive custom-table-responsive">
-                        <table class="table custom-table">
+                    <div id="item-table-container" class="table-responsive custom-table-responsive">
+                        <table id="item-table" class="table custom-table">
                             <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -325,13 +327,13 @@
                                 <th scope="col">Quantity</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <!--<tbody>
                             <tr scope="row">
                                 <td>1</td>
                                 <td><a href="#">James Yates</a></td>
                                 <td>
                                     Web Designer
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+63 983 0962 971</td>
                                 <td>NY University</td>
@@ -342,7 +344,7 @@
                                 <td><a href="#">Matthew Wasil</a></td>
                                 <td>
                                     Graphic Designer
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+02 020 3994 929</td>
                                 <td>London College</td>
@@ -353,7 +355,7 @@
                                 <td><a href="#">Sampson Murphy</a></td>
                                 <td>
                                     Mobile Dev
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+01 352 1125 0192</td>
                                 <td>Senior High</td>
@@ -364,7 +366,7 @@
                                 <td><a href="#">Gaspar Semenov</a></td>
                                 <td>
                                     Illustrator
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+92 020 3994 929</td>
                                 <td>College</td>
@@ -375,7 +377,7 @@
                                 <td><a href="#">Matthew Wasil</a></td>
                                 <td>
                                     Graphic Designer
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+02 020 3994 929</td>
                                 <td>London College</td>
@@ -386,7 +388,7 @@
                                 <td><a href="#">Sampson Murphy</a></td>
                                 <td>
                                     Mobile Dev
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+01 352 1125 0192</td>
                                 <td>Senior High</td>
@@ -397,7 +399,7 @@
                                 <td><a href="#">Gaspar Semenov</a></td>
                                 <td>
                                     Illustrator
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+92 020 3994 929</td>
                                 <td>College</td>
@@ -408,7 +410,7 @@
                                 <td><a href="#">Matthew Wasil</a></td>
                                 <td>
                                     Graphic Designer
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+02 020 3994 929</td>
                                 <td>London College</td>
@@ -419,7 +421,7 @@
                                 <td><a href="#">Sampson Murphy</a></td>
                                 <td>
                                     Mobile Dev
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+01 352 1125 0192</td>
                                 <td>Senior High</td>
@@ -430,13 +432,14 @@
                                 <td><a href="#">Gaspar Semenov</a></td>
                                 <td>
                                     Illustrator
-                                    <!--<small class="d-block">Far far away, behind the word mountains</small>-->
+                                    &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
                                 </td>
                                 <td>+92 020 3994 929</td>
                                 <td>College</td>
                             </tr>
+                            <tr class="spacer"><td colspan="100"></td></tr>
 
-                            </tbody>
+                            </tbody>-->
                         </table>
 
                     </div>
@@ -447,10 +450,234 @@
 
         <div class="main-banner" id="orderContent">
             <div class="row page-header-area"></div>
+            <div class="row">
+                <div class="col-4 mx-3">
+                    <div class="row">
+                        <div class="order-id-container">
+                            <h1 id="order-id-lable">Order ID :  </h1>
+                            <h1 id="order-id-text"> O-000000</h1>
+                        </div>
+                    </div>
+                    <div id="order-field-container">
+                        <img src="assets/images/image.jpg" alt="">
+                        <div class="row">
+                            <div class="shadow-sm pt-3 pb-2 px-3">
+                                <form id="order-detail-form">
+                                    <div class="row">
+                                        <h1>Customer <em> Details</em></h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 textfield">
+                                            <label for="cmbOrderCustId" class="form-label">Customer  ID</label>
+                                            <select id="cmbOrderCustId" class="form-control">
+                                                <option value="" selected disabled hidden>Customer ID</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderCustName" class="form-label">Customer Name</label>
+                                            <input id="txtOrderCustName" placeholder="Customer Name" type="text" class="form-control form-control">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderCustAddress" class="form-label">Customer Address</label>
+                                            <input id="txtOrderCustAddress" placeholder="Customer Address" type="text" class="form-control">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderCustContact" class="form-label">Customer Contact</label>
+                                            <input id="txtOrderCustContact" placeholder="Customer Contact" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <h1>Item <em> Details</em></h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 textfield">
+                                            <label for="cmbOrderItemCode" class="form-label">Item Code</label>
+                                            <select id="cmbOrderItemCode" class="form-control">
+                                                <option value="" selected disabled hidden>Item Code</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderItemName" class="form-label">Item Name</label>
+                                            <input id="txtOrderItemName" placeholder="Item Name" type="text" class="form-control">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderItemPrice" class="form-label">Unit Price</label>
+                                            <input id="txtOrderItemPrice" placeholder="Item Price" type="text" class="form-control">
+                                        </div>
+                                        <div class="mb-3 textfield">
+                                            <label for="txtOrderItemQty" class="form-label">Quantity On Hand</label>
+                                            <input id="txtOrderItemQty" placeholder="Item Quantity" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mt-2 mb-1 textfield">
+                                            <label for="txtQuantity" class="form-label">Quantity</label>
+                                            <input id="txtQuantity" placeholder="Quantity" type="text" class="form-control">
+                                        </div>
+                                        <div class="mt-2 mb-1 textfield">
+                                            <label for="txtSubTotal" class="form-label">Sub Total</label>
+                                            <input id="txtSubTotal" placeholder="Sub Total" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-button-container">
+                                        <button class="btn btn-primary mb-2" id="btnAddToCart" type="button">Add to Cart</button>
+                                        <button class="btn btn-success mb-2" id="btnPurchaseOrder" type="button">Purchase</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 mx-4">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="clock-container">
+                                <p id="Clock_Date"></p>
+                                <p id="Clock_Time"></p>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="total-container">
+                                <h1 id="total-lable">Total  :  Rs.  </h1>
+                                <h1 id="total-text"> 0.00</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="order-table-container" class="table-responsive custom-table-responsive">
+                            <table id="order-table" class="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Item Code</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Unit Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Sub Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--<tr scope="row">
+                                    <td>1</td>
+                                    <td><a href="#">James Yates</a></td>
+                                    <td>
+                                        Web Designer
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+63 983 0962 971</td>
+                                    <td>NY University</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="#">Matthew Wasil</a></td>
+                                    <td>
+                                        Graphic Designer
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+02 020 3994 929</td>
+                                    <td>London College</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><a href="#">Sampson Murphy</a></td>
+                                    <td>
+                                        Mobile Dev
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+01 352 1125 0192</td>
+                                    <td>Senior High</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><a href="#">Gaspar Semenov</a></td>
+                                    <td>
+                                        Illustrator
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+92 020 3994 929</td>
+                                    <td>College</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><a href="#">Matthew Wasil</a></td>
+                                    <td>
+                                        Graphic Designer
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+02 020 3994 929</td>
+                                    <td>London College</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><a href="#">Sampson Murphy</a></td>
+                                    <td>
+                                        Mobile Dev
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+01 352 1125 0192</td>
+                                    <td>Senior High</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><a href="#">Gaspar Semenov</a></td>
+                                    <td>
+                                        Illustrator
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+92 020 3994 929</td>
+                                    <td>College</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><a href="#">Matthew Wasil</a></td>
+                                    <td>
+                                        Graphic Designer
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+02 020 3994 929</td>
+                                    <td>London College</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><a href="#">Sampson Murphy</a></td>
+                                    <td>
+                                        Mobile Dev
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+01 352 1125 0192</td>
+                                    <td>Senior High</td>
+                                </tr>
+                                <tr class="spacer"><td colspan="100"></td></tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td><a href="#">Gaspar Semenov</a></td>
+                                    <td>
+                                        Illustrator
+                                        &lt;!&ndash;<small class="d-block">Far far away, behind the word mountains</small>&ndash;&gt;
+                                    </td>
+                                    <td>+92 020 3994 929</td>
+                                    <td>College</td>
+                                </tr>-->
 
-            <div class="12 grid-margin">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="12 grid-margin">
                 <div class="row">
-                    <div class="col-md-3 grid-margin stretch-card">
+                    &lt;!&ndash;<div class="col-md-3 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <form class="forms-sample">
@@ -463,10 +690,10 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div>&ndash;&gt;
                     <div class="col-md-5 grid-margin stretch-card">
                         <div class="card">
-                            <!--<div class="card-body">
+                            &lt;!&ndash;<div class="card-body">
                                 <form class="forms-sample">
                                     <div class="row form-group">
                                         &lt;!&ndash;<label for="txtDate" class="col-sm-3 col-form-label">Date</label>&ndash;&gt;
@@ -480,7 +707,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>-->
+                            </div>&ndash;&gt;
 
                             <div class="clock-container">
                                 <p id="Clock_Date"></p>
@@ -509,7 +736,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="card-title">Customer Details</h2>
-                                <form class="forms-sample">
+                                &lt;!&ndash;<form class="forms-sample">
                                     <div class="row form-group mt-3">
                                         <label for="cmbOrderCustId" class="col-sm-3 col-form-label">ID</label>
                                         <div class="col-sm-9">
@@ -536,7 +763,7 @@
                                             <input id="txtOrderCustContact" placeholder="Customer Contact" type="text" class="form-control form-control">
                                         </div>
                                     </div>
-                                </form>
+                                </form>&ndash;&gt;
                             </div>
                         </div>
                     </div>
@@ -544,7 +771,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="card-title">Item Details</h2>
-                                <form class="forms-sample">
+                                &lt;!&ndash;<form class="forms-sample">
                                     <div class="row form-group mt-3">
                                         <label for="cmbOrderItemCode" class="col-sm-3 col-form-label">Code</label>
                                         <div class="col-sm-9">
@@ -571,7 +798,7 @@
                                             <input id="txtOrderItemQty" placeholder="Item Quantity" type="text" class="form-control form-control">
                                         </div>
                                     </div>
-                                </form>
+                                </form>&ndash;&gt;
                             </div>
                         </div>
                     </div>
@@ -579,7 +806,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <section class="content-box-2 p-4 ">
-                                    <div class="row">
+                                    &lt;!&ndash;<div class="row">
                                         <div class="row form-group mt-3">
                                             <label for="txtQuantity" class="col-sm-4 col-form-label">Quantity</label>
                                             <div class="col-sm-8">
@@ -598,7 +825,7 @@
                                         <div class="col-5">
                                             <button class="btn btn-success mt-3" id="btnPurchaseOrder" type="button">Purchase</button>
                                         </div>
-                                    </div>
+                                    </div>&ndash;&gt;
                                 </section>
                                 </form>
                             </div>
@@ -630,7 +857,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
     </section>
@@ -640,6 +867,7 @@
 
 <script src="assets/jQuery/jquery-3.6.0.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/moment/moment.min.js"></script>
 <script src="assets/js/spa.js"></script>
 <script src="controller/customerController.js"></script>
 <script src="model/customerDTO.js"></script>
