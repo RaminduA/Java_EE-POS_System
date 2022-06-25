@@ -46,7 +46,7 @@ txtCusContact.keyup(function (event) {
 
 btnCusSearch.click(function () {
 
-    let jsonReq = {option : "SEARCH",data : {id: txtCusSearch.val()}};
+    let jsonReq = {option : "SEARCH",data : {id: txtCusSearch.val()}}
 
     $.ajax({
         url:"http://localhost:8080/Backend/customer",
@@ -55,11 +55,11 @@ btnCusSearch.click(function () {
         //JSON.stringify() method converts a js object to a valid json string
         data:JSON.stringify(jsonReq),
         success:function (jsonResp) {
-            if(resp.status===200){
+            if(jsonResp.status===200){
                 alert(jsonResp.message);
                 //searchAndLoadCustomer(jsonResp.data);
                 console.log(jsonResp.data);
-                //loadAllCustomers();
+                loadAllCustomers();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -101,95 +101,99 @@ btnCusSearch.click(function () {
 });
 
 btnCusSave.click(function () {
-    let customerID = txtCusID.val();
-    let customerName = txtCusName.val();
-    let customerAddress = txtCusAddress.val();
-    let customerContact = txtCusContact.val();
 
-    /*var customerObject={
-        id:customerID,
-        name:customerName,
-        address:customerAddress,
-        contact:customerContact
-    };*/
+    let jsonReq = {option : "",data : {id: txtCusID.val(),name: txtCusName.val(),address: txtCusAddress.val(),contact: txtCusContact.val()}}
 
-    var customerObject=new CustomerDTO(customerID,customerName,customerAddress,customerContact);
-
-    if(isCustomerExists(customerID)){
-        for(var i in customerDB){
-            if(customerDB[i].getId()===customerID){
-                customerDB[i]=customerObject;
+    $.ajax({
+        url:"http://localhost:8080/Backend/customer",
+        method:"POST",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                console.log(jsonResp.data);
+                loadAllCustomers();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
             }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
         }
-    }else{
-        customerDB.push(customerObject);
-    }
-
-    clearAllCustomerFields();
-    setCustomerCombo();
-    loadAllCustomers();
-
-    loadFromCustomerTable();
+    });
 
 });
 
 btnCusUpdate.click(function () {
-    let customerID = txtCusID.val();
-    let customerName = txtCusName.val();
-    let customerAddress = txtCusAddress.val();
-    let customerContact = txtCusContact.val();
 
-    /*var customerObject={
-        id:customerID,
-        name:customerName,
-        address:customerAddress,
-        contact:customerContact
-    };*/
+    let jsonReq = {option : "",data : {id: txtCusID.val(),name: txtCusName.val(),address: txtCusAddress.val(),contact: txtCusContact.val()}}
 
-    var customerObject=new CustomerDTO(customerID,customerName,customerAddress,customerContact);
-
-    if(isCustomerExists(customerID)){
-        for(var i in customerDB){
-            if(customerDB[i].getId()===customerID){
-                customerDB[i]=customerObject;
+    $.ajax({
+        url:"http://localhost:8080/Backend/customer",
+        method:"PUT",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                console.log(jsonResp.data);
+                loadAllCustomers();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
             }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
         }
-    }else{
-        customerDB.push(customerObject);
-    }
-
-    clearAllCustomerFields();
-    setCustomerCombo();
-    loadAllCustomers();
-
-    loadFromCustomerTable();
+    });
 
 });
 
 btnCusDelete.click(function () {
-    var index=-1;
-    for(var i in customerDB){
-        if(customerDB[i].getId()===$("#txtCusID").val()){
-            index=i;
-        }
-    }
-    if (index !== -1) {
-        customerDB.splice(index, 1);
-    }
-    clearAllCustomerFields();
-    setCustomerCombo();
-    loadAllCustomers();
 
-    loadFromCustomerTable();
+    let jsonReq = {option : "",data : {id: txtCusID.val()}}
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/customer",
+        method:"DELETE",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                console.log(jsonResp.data);
+                loadAllCustomers();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
 });
 
 function loadFromCustomerTable() {
 
     $("#customerTable>tr").click(function () {
-        let cusID = $(this).children(":eq(0)").text();
-        let cusName = $(this).children(":eq(1)").text();
-        let cusAddress = $(this).children(":eq(2)").text();
-        let cusContact = $(this).children(":eq(3)").text();
+        let cusID = $(this).children(":eq(1)").text();
+        let cusName = $(this).children(":eq(2)").text();
+        let cusAddress = $(this).children(":eq(3)").text();
+        let cusContact = $(this).children(":eq(4)").text();
 
         console.log(cusID, cusName, cusAddress, cusContact);
 
@@ -234,16 +238,44 @@ function clearAllCustomerFields() {
 }
 
 function loadAllCustomers() {
-    tblCustomer.empty();
 
-    for (var i in customerDB){
-        let id=customerDB[i].getId();
-        let name=customerDB[i].getName();
-        let address=customerDB[i].getAddress();
-        let contact=customerDB[i].getContact();
+    let jsonReq = {option : "GET-ALL",data : ""}
 
-        let row = `<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td></tr>`;
-        tblCustomer.append(row);
+    $.ajax({
+        url:"http://localhost:8080/Backend/customer",
+        method:"GET",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(resp.status===200){
+                alert(jsonResp.message);
+                console.log(jsonResp.data);
+                loadCustomerTable(jsonResp.data);
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
+    function loadCustomerTable(data) {
+        tblCustomer.empty();
+
+        for (let i=0; i<data.length; i++){
+            let id=data[i].id;
+            let name=data[i].name;
+            let address=data[i].address;
+            let contact=data[i].contact;
+
+            let row = `<tr scope="row"><td>${i+1}</td><td><a href="#">${id}</a></td><td>${name}</td><td>${address}</td><td>${contact}</td></tr><tr class="spacer"><td colspan="100"></td></tr>`;
+            tblCustomer.append(row);
+        }
     }
 }
 
