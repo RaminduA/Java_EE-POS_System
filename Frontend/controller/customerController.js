@@ -45,7 +45,39 @@ txtCusContact.keyup(function (event) {
 });
 
 btnCusSearch.click(function () {
-    if(isCustomerExists(txtCusSearch.val())){
+
+    let jsonReq = {option : "SEARCH",data : {id: txtCusSearch.val()}};
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/customer",
+        method:"GET",
+        contentType:"application/json",
+        //JSON.stringify() method converts a js object to a valid json string
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(resp.status===200){
+                alert(jsonResp.message);
+                //searchAndLoadCustomer(jsonResp.data);
+                console.log(jsonResp.data);
+                //loadAllCustomers();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+    //loadFromCustomerTable();
+
+
+
+
+    /*if(isCustomerExists(txtCusSearch.val())){
         var customerObject;
         for(var i in customerDB){
             if(customerDB[i].getId()===$("#txtCusSearch").val()){
@@ -65,7 +97,7 @@ btnCusSearch.click(function () {
 
     }else{
         alert("Customer Doesn't Exist...")
-    }
+    }*/
 });
 
 btnCusSave.click(function () {
@@ -180,6 +212,13 @@ function setCustomerCombo() {
         let id=customerDB[i].getId();
         cmbOrderCusId.append(new Option(id, id));
     }
+}
+
+function searchAndLoadCustomer(data) {
+    txtCusID.val(data.id);
+    txtCusName.val(data.name);
+    txtCusAddress.val(data.address);
+    txtCusContact.val(data.contact);
 }
 
 function clearAllCustomerFields() {
