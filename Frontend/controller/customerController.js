@@ -25,24 +25,23 @@ txtCusID.keyup(function (event) {
         txtCusName.focus();
     }
 });
-
 txtCusName.keyup(function (event) {
     validateCustName();
     if (event.key === 'Enter' && cusNameRegEx.test(txtCusName.val())){
         txtCusAddress.focus();
     }
 });
-
 txtCusAddress.keyup(function (event) {
     validateCustAddress();
     if (event.key === 'Enter' && cusAddressRegEx.test(txtCusAddress.val())){
         txtCusContact.focus();
     }
 });
-
 txtCusContact.keyup(function (event) {
     validateCustContact();
 });
+
+
 
 btnCusSearch.click(function () {
 
