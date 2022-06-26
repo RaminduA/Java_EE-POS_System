@@ -45,7 +45,7 @@ public class ItemServlet extends HttpServlet {
                         JsonObjectBuilder jsonItem = Json.createObjectBuilder();
                         jsonItem.add("code",item.getItemCode());
                         jsonItem.add("name",item.getName());
-                        jsonItem.add("unit-price",item.getUnitPrice());
+                        jsonItem.add("unit_price",item.getUnitPrice());
                         jsonItem.add("quantity",item.getQtyOnHand());
 
                         responseData.add(jsonItem.build());
@@ -69,7 +69,7 @@ public class ItemServlet extends HttpServlet {
                         JsonObjectBuilder respData = Json.createObjectBuilder();
                         respData.add("code",itemDTO.getItemCode());
                         respData.add("name",itemDTO.getName());
-                        respData.add("unit-price",itemDTO.getUnitPrice());
+                        respData.add("unit_price",itemDTO.getUnitPrice());
                         respData.add("quantity",itemDTO.getQtyOnHand());
 
                         JsonObjectBuilder jsonResp = Json.createObjectBuilder();
@@ -123,7 +123,7 @@ public class ItemServlet extends HttpServlet {
             ItemDTO itemDTO = new ItemDTO(
                     reqData.getString("code"),
                     reqData.getString("name"),
-                    Double.parseDouble(reqData.get("unit-price").toString()),
+                    Double.parseDouble(reqData.get("unit_price").toString()),
                     reqData.getInt("quantity")
             );
             boolean isItemAdded = itemBO.addItem(connection, itemDTO);
@@ -171,7 +171,7 @@ public class ItemServlet extends HttpServlet {
             ItemDTO itemDTO = new ItemDTO(
                     reqData.getString("code"),
                     reqData.getString("name"),
-                    Double.parseDouble(reqData.get("unit-price").toString()),
+                    Double.parseDouble(reqData.get("unit_price").toString()),
                     reqData.getInt("quantity")
             );
             boolean isItemUpdated = itemBO.updateItem(connection, itemDTO);
