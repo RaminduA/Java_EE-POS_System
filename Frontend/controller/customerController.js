@@ -214,8 +214,8 @@ function setCustomerCombo() {
         contentType:"application/json",
         success:function (jsonResp) {
             if(jsonResp.status===200){
-                for (let i=0; i<jsonResp.data; i++) {
-                    let id=jsonResp.data.id;
+                for (let i=0; i<jsonResp.data.length; i++) {
+                    let id=jsonResp.data[i].id;
                     cmbOrderCusId.append(new Option(id, id));
                 }
             }else if(jsonResp.status===404){
