@@ -33,9 +33,7 @@ public class CustomerServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
 
-            JsonReader reader = Json.createReader(req.getReader());
-            JsonObject jsonReq = reader.readObject();
-            String option = jsonReq.getString("option");
+            String option = req.getParameter("option");
 
             switch (option){
 
@@ -64,8 +62,7 @@ public class CustomerServlet extends HttpServlet {
                     break;
 
                 case "SEARCH":
-                    JsonObject reqData = jsonReq.getJsonObject("data");
-                    String customerId = reqData.getString("id");
+                    String customerId = req.getParameter("id");
                     CustomerDTO customerDTO = customerBO.getCustomer(connection,customerId);
 
                     if (customerDTO!=null) {
