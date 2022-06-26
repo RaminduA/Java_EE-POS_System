@@ -45,9 +45,11 @@ txtCusContact.keyup(function (event) {
 
 $(document).ready(function() {
     loadAllCustomers();
+    loadFromCustomerTable();
 });
 
 btnCusSearch.click(function () {
+    clearAllCustomerFields();
 
     $.ajax({
         url:"http://localhost:8080/Backend/customer?option=SEARCH&id="+txtCusSearch.val(),
@@ -55,10 +57,7 @@ btnCusSearch.click(function () {
         contentType:"application/json",
         success:function (jsonResp) {
             if(jsonResp.status===200){
-                alert(jsonResp.message);
-                //searchAndLoadCustomer(jsonResp.data);
-                console.log(jsonResp.data);
-                loadAllCustomers();
+                loadCustomerToFields(jsonResp.data);
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -71,32 +70,21 @@ btnCusSearch.click(function () {
             console.log(error);
         }
     });
-    //loadFromCustomerTable();
 
-
-
-
-    /*if(isCustomerExists(txtCusSearch.val())){
-        var customerObject;
-        for(var i in customerDB){
-            if(customerDB[i].getId()===$("#txtCusSearch").val()){
-                customerObject = customerDB[i];
-            }
-        }
-
-        txtCusID.val(customerObject.getId());
-        txtCusName.val(customerObject.getName());
-        txtCusAddress.val(customerObject.getAddress());
-        txtCusContact.val(customerObject.getContact());
+    function loadCustomerToFields(data) {
+        txtCusID.val(data.id);
+        txtCusName.val(data.name);
+        txtCusAddress.val(data.address);
+        txtCusContact.val(data.contact);
 
         validateCustId();
         validateCustName();
         validateCustAddress();
         validateCustContact();
+    }
 
-    }else{
-        alert("Customer Doesn't Exist...")
-    }*/
+    loadFromCustomerTable();
+
 });
 
 btnCusSave.click(function () {
@@ -112,7 +100,6 @@ btnCusSave.click(function () {
         success:function (jsonResp) {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
-                console.log(jsonResp.data);
                 loadAllCustomers();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
@@ -126,6 +113,8 @@ btnCusSave.click(function () {
             console.log(error);
         }
     });
+
+    loadFromCustomerTable();
 
 });
 
@@ -141,7 +130,6 @@ btnCusUpdate.click(function () {
         success:function (jsonResp) {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
-                console.log(jsonResp.data);
                 loadAllCustomers();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
@@ -155,6 +143,8 @@ btnCusUpdate.click(function () {
             console.log(error);
         }
     });
+
+    loadFromCustomerTable();
 
 });
 
@@ -170,7 +160,6 @@ btnCusDelete.click(function () {
         success:function (jsonResp) {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
-                console.log(jsonResp.data);
                 loadAllCustomers();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
@@ -185,22 +174,24 @@ btnCusDelete.click(function () {
         }
     });
 
+    loadFromCustomerTable();
+
 });
 
 function loadFromCustomerTable() {
 
-    $("#customerTable>tr").click(function () {
-        let cusID = $(this).children(":eq(1)").text();
-        let cusName = $(this).children(":eq(2)").text();
-        let cusAddress = $(this).children(":eq(3)").text();
-        let cusContact = $(this).children(":eq(4)").text();
+    $("#customer-table>tr:not(.spacer)").click(function () {
+        let id = $(this).children(":eq(1)").text();
+        let name = $(this).children(":eq(2)").text();
+        let address = $(this).children(":eq(3)").text();
+        let contact = $(this).children(":eq(4)").text();
 
-        console.log(cusID, cusName, cusAddress, cusContact);
+        console.log(id, name, address, contact);
 
-        txtCusID.val(cusID);
-        txtCusName.val(cusName);
-        txtCusAddress.val(cusAddress);
-        txtCusContact.val(cusContact);
+        txtCusID.val(id);
+        txtCusName.val(name);
+        txtCusAddress.val(address);
+        txtCusContact.val(contact);
 
         validateCustId();
         validateCustName();
@@ -212,17 +203,30 @@ function loadFromCustomerTable() {
 function setCustomerCombo() {
     cmbOrderCusId.empty();
     cmbOrderCusId.append(new Option("Customer ID", ""));
-    for (var i in customerDB){
-        let id=customerDB[i].getId();
-        cmbOrderCusId.append(new Option(id, id));
-    }
-}
 
-function searchAndLoadCustomer(data) {
-    txtCusID.val(data.id);
-    txtCusName.val(data.name);
-    txtCusAddress.val(data.address);
-    txtCusContact.val(data.contact);
+    $.ajax({
+        url:"http://localhost:8080/Backend/place-order?option=GET-ALL-CUSTOMER-IDS",
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                for (let i=0; i<jsonResp.data; i++) {
+                    let id=jsonResp.data.id;
+                    cmbOrderCusId.append(new Option(id, id));
+                }
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
 }
 
 function clearAllCustomerFields() {
@@ -245,8 +249,6 @@ function loadAllCustomers() {
         contentType:"application/json",
         success:function (jsonResp) {
             if(jsonResp.status===200){
-                alert(jsonResp.message);
-                console.log(jsonResp.data);
                 loadCustomerTable(jsonResp.data);
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
