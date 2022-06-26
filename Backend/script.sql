@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `Order`(
     PRIMARY KEY(orderId),
     FOREIGN KEY (customerId)
         REFERENCES Customer(customerId)
-        ON DELETE CASCADE
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 SELECT * FROM `Order`;
 DESC `Order`;
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `Order Detail`(
         ON DELETE CASCADE,
     FOREIGN KEY (itemCode)
         REFERENCES Item(itemCode)
-        ON DELETE CASCADE
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 SELECT * FROM `Order Detail`;
 DESC `Order Detail`;
