@@ -17,7 +17,9 @@ public class ItemBOImpl implements ItemBO {
     public ItemDTO getItem(Connection connection, String code) {
         try {
             Item item = itemDAO.get(connection, code);
-            return new ItemDTO(item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand());
+            if (item!=null) {
+                return new ItemDTO(item.getItemCode(),item.getName(),item.getUnitPrice(),item.getQtyOnHand());
+            }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
