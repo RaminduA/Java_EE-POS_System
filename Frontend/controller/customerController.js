@@ -46,6 +46,7 @@ txtCusContact.keyup(function (event) {
 $(document).ready(function() {
     loadAllCustomers();
     loadFromCustomerTable();
+    setCustomerCombo();
 });
 
 btnCusSearch.click(function () {
