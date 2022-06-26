@@ -49,105 +49,183 @@ $(document).ready(function() {
 });
 
 btnItemSearch.click(function () {
+    clearAllItemFields();
 
-});
-
-btnItemSave.click(function () {
-    let itemCode = $("#txtItemCode").val();
-    let itemName = $("#txtItemName").val();
-    let itemPrice = $("#txtItemPrice").val();
-    let itemQuantity = $("#txtItemQty").val();
-
-    var itemObject=new ItemDTO(itemCode,itemName,itemPrice,itemQuantity);
-
-    if(isItemExists(itemCode)){
-        for(var i in itemDB){
-            if(itemDB[i].getCode()===itemCode){
-                itemDB[i]=itemObject;
+    $.ajax({
+        url:"http://localhost:8080/Backend/item?option=SEARCH&code="+txtItemSearch.val(),
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                loadItemToFields(jsonResp.data);
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
             }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
         }
-    }else{
-        itemDB.push(itemObject);
-    }
+    });
 
-    clearAllItemFields();
-    setItemCombo();
-    loadAllItems();
-
-    loadFromItemTable();
-});
-
-btnItemUpdate.click(function () {
-    let itemCode = $("#txtItemCode").val();
-    let itemName = $("#txtItemName").val();
-    let itemPrice = $("#txtItemPrice").val();
-    let itemQuantity = $("#txtItemQty").val();
-
-    var itemObject=new ItemDTO(itemCode,itemName,itemPrice,itemQuantity);
-
-    if(isItemExists(itemCode)){
-        for(var i in itemDB){
-            if(itemDB[i].getCode()===itemCode){
-                itemDB[i]=itemObject;
-            }
-        }
-    }else{
-        itemDB.push(itemObject);
-    }
-
-    clearAllItemFields();
-    setItemCombo();
-    loadAllItems();
-
-    loadFromItemTable();
-});
-
-btnItemDelete.click(function () {
-    var index=-1;
-    for(var i in itemDB){
-        if(itemDB[i].getCode()===$("#txtItemCode").val()){
-            index=i;
-        }
-    }
-    if (index !== -1) {
-        itemDB.splice(index, 1);
-    }
-    clearAllItemFields();
-    setItemCombo();
-    loadAllItems();
-
-    loadFromItemTable();
-});
-
-function loadFromItemTable() {
-    $("#itemTable>tr").click(function () {
-        let code = $(this).children(":eq(1)").text();
-        let name = $(this).children(":eq(2)").text();
-        let price = $(this).children(":eq(3)").text();
-        let qty = $(this).children(":eq(4)").text();
-
-        console.log(code, name, price, qty);
-
-        $("#txtItemCode").val(code);
-        $("#txtItemName").val(name);
-        $("#txtItemPrice").val(price);
-        $("#txtItemQty").val(qty);
+    function loadItemToFields(data) {
+        txtItemCode.val(data.code);
+        txtItemName.val(data.name);
+        txtItemPrice.val(data.unit_price);
+        txtItemQty.val(data.quantity);
 
         validateItemCode();
         validateItemName();
         validateItemPrice();
         validateItemQty();
+    }
 
+    loadFromItemTable();
+
+});
+
+btnItemSave.click(function () {
+
+    let jsonReq = {option : "", data : {code : txtItemCode.val(), name : txtItemName.val(), unit_price : txtItemPrice.val(), quantity : txtItemQty.val()}}
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/item",
+        method:"POST",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                loadAllItems();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
+    loadFromItemTable();
+
+});
+
+btnItemUpdate.click(function () {
+
+    let jsonReq = {option : "", data : {code : txtItemCode.val(), name : txtItemName.val(), unit_price : txtItemPrice.val(), quantity : txtItemQty.val()}}
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/item",
+        method:"PUT",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                loadAllItems();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
+    loadFromItemTable();
+
+});
+
+btnItemDelete.click(function () {
+
+    let jsonReq = {option : "",data : {code : txtItemCode.val()}}
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/item",
+        method:"DELETE",
+        contentType:"application/json",
+        data:JSON.stringify(jsonReq),
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                alert(jsonResp.message);
+                loadAllItems();
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
+    loadFromItemTable();
+
+});
+
+function loadFromItemTable() {
+
+    $("#item-table>tr:not(.spacer)").click(function () {
+        let code = $(this).children(":eq(1)").text();
+        let name = $(this).children(":eq(2)").text();
+        let unit_price = $(this).children(":eq(3)").text();
+        let quantity = $(this).children(":eq(4)").text();
+
+        console.log(code, name, unit_price, quantity);
+
+        txtItemCode.val(code);
+        txtItemName.val(name);
+        txtItemPrice.val(unit_price);
+        txtItemQty.val(quantity);
+
+        validateItemCode();
+        validateItemName();
+        validateItemPrice();
+        validateItemQty();
     });
 }
 
 function setItemCombo() {
     cmbOrderItemCode.empty();
     cmbOrderItemCode.append(new Option("Item Code", ""));
-    for (var i in itemDB){
-        let code=itemDB[i].getCode();
-        cmbOrderItemCode.append(new Option(code, code));
-    }
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/place-order?option=GET-ALL-ITEM-CODES",
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                for (let i=0; i<jsonResp.data; i++) {
+                    let code=jsonResp.data.code;
+                    cmbOrderItemCode.append(new Option(code, code));
+                }
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
 }
 
 function clearAllItemFields() {
@@ -163,16 +241,39 @@ function clearAllItemFields() {
 }
 
 function loadAllItems() {
-    tblItem.empty();
 
-    for (var i in itemDB){
-        let code=itemDB[i].getCode();
-        let name=itemDB[i].getName();
-        let price=itemDB[i].getPrice();
-        let quantity=itemDB[i].getQuantity();
+    $.ajax({
+        url:"http://localhost:8080/Backend/item?option=GET-ALL",
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                loadItemTable(jsonResp.data);
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
 
-        let row = `<tr><td>${code}</td><td>${name}</td><td>${price}</td><td>${quantity}</td></tr>`;
-        $("#itemTable").append(row);
+    function loadItemTable(data) {
+        tblItem.empty();
+
+        for (let i=0; i<data.length; i++){
+            let code=data[i].code;
+            let name=data[i].name;
+            let unit_price=data[i].unit_price;
+            let quantity=data[i].quantity;
+
+            let row = `<tr scope="row"><td>${i+1}</td><td><a href="#">${code}</a></td><td>${name}</td><td>${unit_price}</td><td>${quantity}</td></tr><tr class="spacer"><td colspan="100"></td></tr>`;
+            tblItem.append(row);
+        }
     }
 }
 
