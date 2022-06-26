@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `Order Detail`(
     PRIMARY KEY(orderId,itemCode),
     FOREIGN KEY (orderId)
         REFERENCES `Order`(orderId)
-        ON UPDATE CASCADE ON DELETE CASCADE
+        ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (itemCode)
         REFERENCES Item(itemCode)
         ON UPDATE CASCADE ON DELETE CASCADE
