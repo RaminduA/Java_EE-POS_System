@@ -1,4 +1,4 @@
-const itemCodeRegEx = /^(I-)[0-9]{5}$/;
+const itemCodeRegEx = /^(I-)[0-9]{6}$/;
 const itemNameRegEx = /^[A-z ]{2,20}$/;
 const itemPriceRegEx = /^[1-9][0-9]{0,5}[.][0-9]{2}$/;
 const itemQtyRegEx = /^[1-9][0-9]*$/;
