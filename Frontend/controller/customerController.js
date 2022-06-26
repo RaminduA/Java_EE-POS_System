@@ -101,6 +101,7 @@ btnCusSave.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllCustomers();
+                setCustomerCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -131,6 +132,7 @@ btnCusUpdate.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllCustomers();
+                setCustomerCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -161,6 +163,7 @@ btnCusDelete.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllCustomers();
+                setCustomerCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
