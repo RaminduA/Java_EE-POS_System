@@ -1,4 +1,4 @@
-const cusIDRegEx = /^(C-)[0-9]{4}[1-9]{1}$/;
+const cusIDRegEx = /^(C-)[0-9]{5}$/;
 const cusNameRegEx = /^[A-z ]{2,20}$/;
 const cusAddressRegEx = /^[0-9/A-z. ,]{5,}$/;
 const cusContactRegEx = /^(0)[0-9]{2}(-)[0-9]{7}$/;
