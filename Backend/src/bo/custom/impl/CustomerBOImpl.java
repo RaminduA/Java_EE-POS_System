@@ -17,7 +17,9 @@ public class CustomerBOImpl implements CustomerBO {
     public CustomerDTO getCustomer(Connection connection, String id) {
         try {
             Customer customer = customerDAO.get(connection, id);
-            return new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact());
+            if (customer!=null) {
+                return new CustomerDTO(customer.getCustomerId(),customer.getName(),customer.getAddress(),customer.getContact());
+            }
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
