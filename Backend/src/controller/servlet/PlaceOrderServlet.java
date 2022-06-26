@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/place-order")
@@ -36,9 +38,7 @@ public class PlaceOrderServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
 
-            JsonReader reader = Json.createReader(req.getReader());
-            JsonObject jsonReq = reader.readObject();
-            String option = jsonReq.getString("option");
+            String option = req.getParameter("option");
 
             switch (option){
 
@@ -55,11 +55,11 @@ public class PlaceOrderServlet extends HttpServlet {
                     break;
 
                 case "GET-CUSTOMER":
-                    writer.print(getCustomer(resp,connection,jsonReq.getJsonObject("data")));
+                    writer.print(getCustomer(resp,connection,req.getParameter("id")));
                     break;
 
                 case "GET-ITEM":
-                    writer.print(getItem(resp,connection,jsonReq.getJsonObject("data")));
+                    writer.print(getItem(resp,connection,req.getParameter("code")));
                     break;
             }
 
@@ -210,41 +210,70 @@ public class PlaceOrderServlet extends HttpServlet {
         return jsonResp.build();
     }
 
-    private JsonObject getCustomer(HttpServletResponse resp, Connection connection, JsonObject reqData) {
-        String customerId = reqData.getString("id");
-        CustomerDTO customerDTO = placeOrderBO.getCustomer(connection, customerId);
+    private JsonObject getCustomer(HttpServletResponse resp, Connection connection, String id) {
+        CustomerDTO customerDTO = placeOrderBO.getCustomer(connection, id);
 
-        JsonObjectBuilder respData = Json.createObjectBuilder();
-        respData.add("id",customerDTO.getCustomerId());
-        respData.add("name",customerDTO.getName());
-        respData.add("address",customerDTO.getAddress());
-        respData.add("contact",customerDTO.getContact());
+        if (customerDTO!=null) {
 
-        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
-        resp.setStatus(HttpServletResponse.SC_OK);
-        jsonResp.add("status",resp.getStatus());
-        jsonResp.add("message","Done");
-        jsonResp.add("data",respData.build());
+            JsonObjectBuilder respData = Json.createObjectBuilder();
+            respData.add("id",customerDTO.getCustomerId());
+            respData.add("name",customerDTO.getName());
+            respData.add("address",customerDTO.getAddress());
+            respData.add("contact",customerDTO.getContact());
 
-        return jsonResp.build();
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonResp.add("status",resp.getStatus());
+            jsonResp.add("message","Done");
+            jsonResp.add("data",respData.build());
+
+            return jsonResp.build();
+
+        } else {
+
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonResp.add("status",HttpServletResponse.SC_NOT_FOUND);
+            jsonResp.add("message",id+" is not an existing Customer ID");
+            jsonResp.add("data","");
+
+            return jsonResp.build();
+
+        }
     }
 
-    private JsonObject getItem(HttpServletResponse resp, Connection connection, JsonObject reqData) {
-        String itemCode = reqData.getString("code");
-        ItemDTO itemDTO = placeOrderBO.getItem(connection, itemCode);
+    private JsonObject getItem(HttpServletResponse resp, Connection connection, String code) {
+        ItemDTO itemDTO = placeOrderBO.getItem(connection, code);
 
-        JsonObjectBuilder respData = Json.createObjectBuilder();
-        respData.add("code",itemDTO.getItemCode());
-        respData.add("name",itemDTO.getName());
-        respData.add("unit-price",itemDTO.getUnitPrice());
-        respData.add("quantity",itemDTO.getQtyOnHand());
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setRoundingMode(RoundingMode.DOWN);
 
-        JsonObjectBuilder jsonResp = Json.createObjectBuilder();
-        resp.setStatus(HttpServletResponse.SC_OK);
-        jsonResp.add("status",resp.getStatus());
-        jsonResp.add("message","Done");
-        jsonResp.add("data",respData.build());
+        if (itemDTO!=null) {
 
-        return jsonResp.build();
+            JsonObjectBuilder respData = Json.createObjectBuilder();
+            respData.add("code",itemDTO.getItemCode());
+            respData.add("name",itemDTO.getName());
+            respData.add("unit-price",df.format(itemDTO.getUnitPrice()));
+            respData.add("quantity",itemDTO.getQtyOnHand());
+
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonResp.add("status",resp.getStatus());
+            jsonResp.add("message","Done");
+            jsonResp.add("data",respData.build());
+
+            return jsonResp.build();
+
+        } else {
+
+            JsonObjectBuilder jsonResp = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_OK);
+            jsonResp.add("status",HttpServletResponse.SC_NOT_FOUND);
+            jsonResp.add("message",code+" is not an existing Item Code");
+            jsonResp.add("data","");
+
+            return jsonResp.build();
+
+        }
     }
 }
