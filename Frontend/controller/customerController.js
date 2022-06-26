@@ -43,16 +43,16 @@ txtCusContact.keyup(function (event) {
 
 
 
+$(document).ready(function() {
+    loadAllCustomers();
+});
+
 btnCusSearch.click(function () {
 
-    let jsonReq = {option : "SEARCH",data : {id: txtCusSearch.val()}}
-
     $.ajax({
-        url:"http://localhost:8080/Backend/customer",
+        url:"http://localhost:8080/Backend/customer?option=SEARCH&id="+txtCusSearch.val(),
         method:"GET",
         contentType:"application/json",
-        //JSON.stringify() method converts a js object to a valid json string
-        data:JSON.stringify(jsonReq),
         success:function (jsonResp) {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
@@ -107,6 +107,7 @@ btnCusSave.click(function () {
         url:"http://localhost:8080/Backend/customer",
         method:"POST",
         contentType:"application/json",
+        //JSON.stringify() method converts a js object to a valid json string
         data:JSON.stringify(jsonReq),
         success:function (jsonResp) {
             if(jsonResp.status===200){
@@ -238,15 +239,12 @@ function clearAllCustomerFields() {
 
 function loadAllCustomers() {
 
-    let jsonReq = {option : "GET-ALL",data : ""}
-
     $.ajax({
-        url:"http://localhost:8080/Backend/customer",
+        url:"http://localhost:8080/Backend/customer?option=GET-ALL",
         method:"GET",
         contentType:"application/json",
-        data:JSON.stringify(jsonReq),
         success:function (jsonResp) {
-            if(resp.status===200){
+            if(jsonResp.status===200){
                 alert(jsonResp.message);
                 console.log(jsonResp.data);
                 loadCustomerTable(jsonResp.data);
