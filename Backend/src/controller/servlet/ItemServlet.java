@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/item")
@@ -33,6 +35,9 @@ public class ItemServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
 
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setRoundingMode(RoundingMode.DOWN);
+
             String option = req.getParameter("option");
 
             switch (option){
@@ -45,7 +50,7 @@ public class ItemServlet extends HttpServlet {
                         JsonObjectBuilder jsonItem = Json.createObjectBuilder();
                         jsonItem.add("code",item.getItemCode());
                         jsonItem.add("name",item.getName());
-                        jsonItem.add("unit_price",item.getUnitPrice());
+                        jsonItem.add("unit_price",df.format(item.getUnitPrice()));
                         jsonItem.add("quantity",item.getQtyOnHand());
 
                         responseData.add(jsonItem.build());
@@ -69,7 +74,7 @@ public class ItemServlet extends HttpServlet {
                         JsonObjectBuilder respData = Json.createObjectBuilder();
                         respData.add("code",itemDTO.getItemCode());
                         respData.add("name",itemDTO.getName());
-                        respData.add("unit_price",itemDTO.getUnitPrice());
+                        respData.add("unit_price",df.format(itemDTO.getUnitPrice()));
                         respData.add("quantity",itemDTO.getQtyOnHand());
 
                         JsonObjectBuilder jsonResp = Json.createObjectBuilder();
@@ -123,8 +128,8 @@ public class ItemServlet extends HttpServlet {
             ItemDTO itemDTO = new ItemDTO(
                     reqData.getString("code"),
                     reqData.getString("name"),
-                    Double.parseDouble(reqData.get("unit_price").toString()),
-                    reqData.getInt("quantity")
+                    Double.parseDouble(reqData.getString("unit_price")),
+                    Integer.parseInt(reqData.getString("quantity"))
             );
             boolean isItemAdded = itemBO.addItem(connection, itemDTO);
 
@@ -171,8 +176,8 @@ public class ItemServlet extends HttpServlet {
             ItemDTO itemDTO = new ItemDTO(
                     reqData.getString("code"),
                     reqData.getString("name"),
-                    Double.parseDouble(reqData.get("unit_price").toString()),
-                    reqData.getInt("quantity")
+                    Double.parseDouble(reqData.getString("unit_price")),
+                    Integer.parseInt(reqData.getString("quantity"))
             );
             boolean isItemUpdated = itemBO.updateItem(connection, itemDTO);
 
