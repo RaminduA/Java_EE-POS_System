@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $('#js-preloader').fadeOut(2000);
-    playDT();
 });
 
 
@@ -77,19 +76,3 @@ $("#linkOrder").click(function (){
     $("#linkOrder").addClass("active");
 
 });
-
-
-function playDT(){
-    let Clock_Date = $("#Clock_Date");
-    let Clock_Time = $("#Clock_Time");
-
-    /*let dt = new Date().toISOString();
-    Clock_Date.text(dt.split('T')[0]);
-    Clock_Time.text(dt.split('T')[1].split('.')[0]);*/
-
-    let dt = new Date();
-    Clock_Date.text(moment(dt).format("ddd, MMM Do YYYY"));
-    Clock_Time.text(moment(dt).format("hh:mm:ss A"));
-
-    setInterval(function(){playDT();},1000);
-}
