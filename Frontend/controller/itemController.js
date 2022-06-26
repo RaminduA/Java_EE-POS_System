@@ -46,6 +46,7 @@ txtItemQty.keyup(function (event) {
 $(document).ready(function() {
     loadAllItems();
     loadFromItemTable();
+    setItemCombo();
 });
 
 btnItemSearch.click(function () {
@@ -100,6 +101,7 @@ btnItemSave.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllItems();
+                setItemCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -130,6 +132,7 @@ btnItemUpdate.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllItems();
+                setItemCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
@@ -160,6 +163,7 @@ btnItemDelete.click(function () {
             if(jsonResp.status===200){
                 alert(jsonResp.message);
                 loadAllItems();
+                setItemCombo();
             }else if(jsonResp.status===404){
                 alert(jsonResp.message);
             }else{
