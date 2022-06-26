@@ -209,8 +209,8 @@ function setItemCombo() {
         contentType:"application/json",
         success:function (jsonResp) {
             if(jsonResp.status===200){
-                for (let i=0; i<jsonResp.data; i++) {
-                    let code=jsonResp.data.code;
+                for (let i=0; i<jsonResp.data.length; i++) {
+                    let code=jsonResp.data[i].code;
                     cmbOrderItemCode.append(new Option(code, code));
                 }
             }else if(jsonResp.status===404){
