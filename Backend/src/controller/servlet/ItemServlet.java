@@ -33,9 +33,7 @@ public class ItemServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
 
-            JsonReader reader = Json.createReader(req.getReader());
-            JsonObject jsonReq = reader.readObject();
-            String option = jsonReq.getString("option");
+            String option = req.getParameter("option");
 
             switch (option){
 
@@ -64,8 +62,7 @@ public class ItemServlet extends HttpServlet {
                     break;
 
                 case "SEARCH":
-                    JsonObject reqData = jsonReq.getJsonObject("data");
-                    String itemCode = reqData.getString("itemCode");
+                    String itemCode = req.getParameter("code");
                     ItemDTO itemDTO = itemBO.getItem(connection,itemCode);
 
                     if (itemDTO!=null) {
