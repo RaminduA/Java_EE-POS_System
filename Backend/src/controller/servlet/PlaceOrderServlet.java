@@ -253,7 +253,7 @@ public class PlaceOrderServlet extends HttpServlet {
             JsonObjectBuilder respData = Json.createObjectBuilder();
             respData.add("code",itemDTO.getItemCode());
             respData.add("name",itemDTO.getName());
-            respData.add("unit-price",df.format(itemDTO.getUnitPrice()));
+            respData.add("unit_price",df.format(itemDTO.getUnitPrice()));
             respData.add("quantity",itemDTO.getQtyOnHand());
 
             JsonObjectBuilder jsonResp = Json.createObjectBuilder();
