@@ -90,9 +90,9 @@ public class PlaceOrderServlet extends HttpServlet {
                 detailDTOs.add(new OrderDetailDTO(
                         jsonDetail.getString("order_id"),
                         jsonDetail.getString("item_code"),
-                        Double.parseDouble(jsonDetail.get("unit_price").toString()),
-                        jsonDetail.getInt("quantity"),
-                        Double.parseDouble(jsonDetail.get("price").toString())
+                        Double.parseDouble(jsonDetail.getString("unit_price")),
+                        Integer.parseInt(jsonDetail.getString("quantity")),
+                        Double.parseDouble(jsonDetail.getString("price"))
                 ));
             }
 
@@ -101,7 +101,7 @@ public class PlaceOrderServlet extends HttpServlet {
                     reqData.getString("customer_id"),
                     reqData.getString("date"),
                     reqData.getString("time"),
-                    Double.parseDouble(reqData.get("cost").toString()),
+                    Double.parseDouble(reqData.getString("cost")),
                     detailDTOs
             );
             boolean isOrderPlaced = placeOrderBO.placeOrder(connection, orderDTO);
