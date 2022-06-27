@@ -140,7 +140,7 @@ btnAddItemToCart.click(function () {
         let isExists = isOrderItemExists(cart_row.code);
         if(isExists.boolean){
             let index = isExists.index;
-            cart[index].quantity = parseInt(cart[index].quantity) + parseInt(cart_row.quantity);
+            cart[index].quantity = (parseInt(cart[index].quantity) + parseInt(cart_row.quantity)).toString();
             let new_total = parseFloat(cart[index].subtotal) + parseFloat(cart_row.subtotal);
             cart[index].subtotal = new_total.toFixed(2);
         }else{
@@ -161,6 +161,9 @@ btnAddItemToCart.click(function () {
 btnPurchaseOrder.click(function () {
     if(!orderIDRegEx.test(txtOrderId.text())){
         alert("Invalid Order ID !!!");
+
+    }else if(!orderCusIDRegEx.test(cmbOrderCusId.val())){
+        alert("Invalid Customer ID !!!");
 
     }else if(cart.length <= 0){
         alert("Cart is Empty !!!");
