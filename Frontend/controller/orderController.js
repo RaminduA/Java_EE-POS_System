@@ -21,9 +21,6 @@ let tblOrder = $("#order-table");
 
 let cart = [];
 
-
-
-
 txtOrderCusName.prop('disabled', true);
 txtOrderCusAddress.prop('disabled', true);
 txtOrderCusContact.prop('disabled', true);
@@ -31,6 +28,8 @@ txtOrderItemName.prop('disabled', true);
 txtOrderItemPrice.prop('disabled', true);
 txtOrderItemQty.prop('disabled', true);
 txtSubTotal.prop('disabled', true);
+
+
 
 
 $(document).ready(function() {
@@ -104,15 +103,6 @@ cmbOrderItemCode.on('change', function() {
     }
 });
 
-function setOrderButtons() {
-    let b = orderIDRegEx.test($("#txtOrderId").val()) & cartDB.length>0;
-    if (b) {
-        $("#btnPurchaseOrder").attr('disabled', false);
-    } else {
-        $("#btnPurchaseOrder").attr('disabled', true);
-    }
-}
-
 txtQuantity.keyup(function (event) {
     if(txtQuantity.val()===""){
         txtQuantity.css('border','1px solid #ced4da');
@@ -169,33 +159,62 @@ btnAddItemToCart.click(function () {
 });
 
 btnPurchaseOrder.click(function () {
-    let orderID = txtOrderId.text();
-    let cusID = cmbOrderCusId.val();
-    let dt = new Date();
-    let orderDate = moment(dt).format("yyyy-MM-DD");
-    let orderTime = moment(dt).format("hh:mm:ss A");
-    let orderCost = txtTotal.text();
+    if(!orderIDRegEx.test(txtOrderId.text())){
+        alert("Invalid Order ID !!!");
 
-    let detailList = [];
+    }else if(cart.length <= 0){
+        alert("Cart is Empty !!!");
 
-    for (let i=0; i<cart.length; i++){
-        let itmID=cartDB[i].getItemCode();
-        let itmQty=cartDB[i].getQuantity();
-        let itmPrice=cartDB[i].getPrice();
-        let itmTotal=cartDB[i].getTotal();
+    }else{
 
-        var orderDetail=new OrderDetailDTO(itmID,orderID,itmQty,itmPrice,itmTotal);
-        detailList.push(orderDetail);
+        let order_id = txtOrderId.text();
+        let customer_id = cmbOrderCusId.val();
+        let dt = new Date();
+        let date = moment(dt).format("yyyy-MM-DD");
+        let time = moment(dt).format("hh:mm:ss A");
+        let cost = txtTotal.text();
+
+        let detail_list = [];
+
+        for (let i=0; i<cart.length; i++){
+            let item_code = cart[i].code;
+            let unit_price = cart[i].unit_price;
+            let quantity = cart[i].quantity;
+            let price = cart[i].subtotal;
+
+            let order_detail = {order_id : order_id, item_code : item_code, unit_price : unit_price, quantity : quantity, price : price};
+            detail_list.push(order_detail);
+        }
+
+        let jsonReq = {option : "", data : {order_id : order_id, customer_id : customer_id, date : date, time : time, cost : cost, detail_list : detail_list}};
+
+        $.ajax({
+            url:"http://localhost:8080/Backend/place-order",
+            method:"POST",
+            contentType:"application/json",
+            data:JSON.stringify(jsonReq),
+            success:function (jsonResp) {
+                if(jsonResp.status===200){
+                    alert(jsonResp.message);
+                    cart = [];
+                    setOrderId();
+                    setTotalPurchase();
+                    clearAllOrderFields();
+                    loadAllCartObjects();
+                }else if(jsonResp.status===404){
+                    alert(jsonResp.message);
+                }else{
+                    alert(jsonResp.data);
+                }
+            },
+            error:function (ob, textStatus, error) {
+                console.log(ob);
+                console.log(textStatus);
+                console.log(error);
+            }
+        });
+
     }
-
-    var orderObject=new OrderDTO(orderID,cusID,orderDate,orderTime,orderCost,detailList);
-    orderDB.push(orderObject);
-
-    cart = [];
-    setOrderId();
-    setTotalPurchase();
-    clearAllOrderFields();
-    loadAllCartObjects();
 });
 
 function clearAllOrderFields() {
