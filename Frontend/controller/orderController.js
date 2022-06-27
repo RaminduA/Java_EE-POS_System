@@ -1,63 +1,44 @@
-const orderCusIDRegEx = /^(C00-)[0-9]{3,4}$/;
-const orderItemCodeRegEx = /^(I00-)[0-9]{3,4}$/;
-const orderIDRegEx = /^(O00-)[0-9]{4,5}$/;
+const orderCusIDRegEx = /^(C-)[0-9]{5}$/;
+const orderItemCodeRegEx = /^(I-)[0-9]{6}$/;
+const orderIDRegEx = /^(O-)[0-9]{6}$/;
 const quantityRegEx = /^[1-9][0-9]*$/;
 
+let btnAddItemToCart = $("#btnAddItemToCart");
+let btnPurchaseOrder = $("#btnPurchaseOrder");
+
+let txtOrderId = $("#order-id-text");
+let txtTotal = $("#total-text");
+let txtOrderCusName = $("#txtOrderCustName");
+let txtOrderCusAddress = $("#txtOrderCustAddress");
+let txtOrderCusContact = $("#txtOrderCustContact");
+let txtOrderItemName = $("#txtOrderItemName");
+let txtOrderItemPrice = $("#txtOrderItemPrice");
+let txtOrderItemQty = $("#txtOrderItemQty");
+let txtQuantity = $("#txtQuantity");
+let txtSubTotal = $("#txtSubTotal");
+
+let tblOrder = $("#order-table");
 
 $("#txtOrderId").val("O00-0001");
 
 
 
 
-$("#btnAddToCart").attr('disabled', true);
-$("#btnPurchaseOrder").attr('disabled', true);
-
-$("#txtOrderId").prop('disabled', true);
-$("#txtDate").prop('disabled', true);
-$("#txtTime").prop('disabled', true);
-$("#txtOrderCustName").prop('disabled', true);
-$("#txtOrderCustAddress").prop('disabled', true);
-$("#txtOrderCustContact").prop('disabled', true);
-$("#txtOrderItemName").prop('disabled', true);
-$("#txtOrderItemPrice").prop('disabled', true);
-$("#txtOrderItemQty").prop('disabled', true);
-$("#txtSubTotal").prop('disabled', true);
+txtOrderCusName.prop('disabled', true);
+txtOrderCusAddress.prop('disabled', true);
+txtOrderCusContact.prop('disabled', true);
+txtOrderItemName.prop('disabled', true);
+txtOrderItemPrice.prop('disabled', true);
+txtOrderItemQty.prop('disabled', true);
+txtSubTotal.prop('disabled', true);
 
 
-function displayDateTime() {
-    var date = new Date()
-    var ampm = date.getHours( ) >= 12 ? 'PM' : 'AM';
-    var hours = date.getHours( ) % 12;
-    hours = hours ? hours : 12;
-    hours=hours.toString().length===1? 0+hours.toString() : hours;
+$(document).ready(function() {
+    playDT();
+    setOrderId();
+});
 
-    var minutes=date.getMinutes().toString()
-    minutes=minutes.length===1 ? 0+minutes : minutes;
-
-    var seconds=date.getSeconds().toString()
-    seconds=seconds.length===1 ? 0+seconds : seconds;
-
-    var year=date.getFullYear().toString();
-
-    var month=(date.getMonth() +1).toString();
-    month=month.length===1 ? 0+month : month;
-
-    var day=date.getDate().toString();
-    day=day.length===1 ? 0+day : day;
-
-    var x1=day + "/" + month + "/" + year;
-    var x2 = hours + ":" +  minutes + ":" +  seconds + " " + ampm;
-    $("#txtDate").val(x1);
-    $("#txtTime").val(x2);
-    playDateTime();
-}
-function playDateTime(){
-    var refresh=1000; // Refresh rate in milli seconds
-    mytime=setTimeout('displayDateTime()',refresh)
-}
-playDateTime();
-
-$('#cmbOrderCustId').on('change', function() {
+cmbOrderCusId.on('change', function() {
     var id = $(this).val();
 
     if(id===""){
@@ -77,7 +58,7 @@ $('#cmbOrderCustId').on('change', function() {
     }
 });
 
-$('#cmbOrderItemCode').on('change', function() {
+cmbOrderItemCode.on('change', function() {
     var code = $(this).val();
 
     if(code===""){
@@ -161,7 +142,7 @@ $('#btnAddToCart').click(function () {
     //setCustomerButtons();
 });
 
-$('#btnPurchaseOrder').click(function () {
+btnPurchaseOrder.click(function () {
     let orderID = $("#txtOrderId").val();
     let cusID = $("#cmbOrderCustId").val();
     let orderDate = $("#txtDate").val();
@@ -204,40 +185,21 @@ function reducePurchasedItems() {
     }
 }
 
-function setOrderId() {
-    var oldOrderId=$("#txtOrderId").val();
-    var index=parseInt(oldOrderId.split("-")[1]);
-    var newOrderId;
-    if(index<9){
-        index++;
-        newOrderId="O00-000"+index;
-    }else if(index<99){
-        index++;
-        newOrderId="O00-00"+index;
-    }else if(index<999){
-        index++;
-        newOrderId="O00-0"+index;
-    }else if(index<9999){
-        index++;
-        newOrderId="O00-"+index;
-    }
-    $("#txtOrderId").val(newOrderId);
-}
 
 function clearAllOrderFields() {
-    $("#txtOrderCustName").val("");
-    $("#txtOrderCustAddress").val("");
-    $("#txtOrderCustContact").val("");
-    $("#txtOrderItemName").val("");
-    $("#txtOrderItemPrice").val("");
-    $("#txtOrderItemQty").val("");
-    $("#txtQuantity").val("");
-    $("#txtSubTotal").val("");
-    $("#txtQuantity").css('border','1px solid #ced4da');
+    txtOrderCusName.val("");
+    txtOrderCusAddress.val("");
+    txtOrderCusContact.val("");
+    txtOrderItemName.val("");
+    txtOrderItemPrice.val("");
+    txtOrderItemQty.val("");
+    txtQuantity.val("");
+    txtQuantity.css('border','1px solid #ced4da');
+    txtSubTotal.val("");
 }
 
 function loadAllCartObjects() {
-    $("#orderTable").empty();
+    tblOrder.empty();
 
     for (var i in cartDB){
         let itmCode=cartDB[i].getItemCode();
@@ -247,7 +209,7 @@ function loadAllCartObjects() {
         let itmTotal=cartDB[i].getTotal();
 
         let row = `<tr><td>${itmCode}</td><td>${itmName}</td><td>${itmPrice}</td><td>${itmQty}</td><td>${itmTotal}</td></tr>`;
-        $("#orderTable").append(row);
+        tblOrder.append(row);
     }
 }
 
@@ -262,17 +224,17 @@ function setTotalPurchase() {
 function setQtyOnHand() {
     var itemObject;
     for(var i in itemDB){
-        if(itemDB[i].getCode()===$("#cmbOrderItemCode").val()){
+        if(itemDB[i].getCode()===cmbOrderItemCode.val()){
             itemObject = itemDB[i];
         }
     }
     let qty=itemObject.getQuantity();
     for(var i in cartDB){
-        if(cartDB[i].getItemCode()===$("#cmbOrderItemCode").val()){
+        if(cartDB[i].getItemCode()===cmbOrderItemCode.val()){
             qty-= cartDB[i].getQuantity();
         }
     }
-    $("#txtOrderItemQty").val(qty);
+    txtOrderItemQty.val(qty);
 }
 
 function isOrderItemExists(itmCode) {
@@ -284,16 +246,41 @@ function isOrderItemExists(itmCode) {
     return false;
 }
 
+function playDT(){
+    let Clock_Date = $("#Clock_Date");
+    let Clock_Time = $("#Clock_Time");
 
-let Clock_Date = $("#Clock_Date")
-let Clock_Time = $("#Clock_Time")
+    /*let dt = new Date().toISOString();
+    Clock_Date.text(dt.split('T')[0]);
+    Clock_Time.text(dt.split('T')[1].split('.')[0]);*/
 
-Clock_Date.innerText = moment(new Date()).format("dddd D MMMM YYYY")
-Clock_Time.innerText = moment(new Date()).format("LTS")
-setInterval(
-    function () {
-        Clock_Date.innerText = moment(new Date()).format("dddd D MMMM YYYY")
-        Clock_Time.innerText = moment(new Date()).format("LTS")
-    },
-    1000
-);
+    let dt = new Date();
+    Clock_Date.text(moment(dt).format("ddd, MMM Do YYYY"));
+    Clock_Time.text(moment(dt).format("hh:mm:ss A"));
+
+    setInterval(function(){playDT();},1000);
+}
+
+function setOrderId() {
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/place-order?option=GET-ORDER-ID",
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                txtOrderId.text(jsonResp.data.id);
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
+        }
+    });
+
+}
