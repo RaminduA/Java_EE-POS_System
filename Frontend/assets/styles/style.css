@@ -1050,17 +1050,13 @@ tables
     margin-top: 40px;
     margin-bottom: 30px;
     color: #eee;
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 600;
 }
 
 #total-lable{
     margin-right: 10px;
     text-transform: uppercase;
-}
-
-#total-text{
-    margin-right: 40px;
 }
 
 /*Large Clock Page Container*/
@@ -1075,7 +1071,7 @@ tables
 #Clock_Date,#Clock_Time{
     margin: 20px;
     color: #eee;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     text-transform: uppercase;
     /*font-family: cursive;*/
