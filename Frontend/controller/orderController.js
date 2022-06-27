@@ -82,7 +82,7 @@ cmbOrderItemCode.on('change', function() {
                 if(jsonResp.status===200){
                     txtOrderItemName.val(jsonResp.data.name);
                     txtOrderItemPrice.val(jsonResp.data.unit_price);
-                    txtOrderItemQty.val(jsonResp.data.quantity);
+                    setQuantityOnHand();
                 }else if(jsonResp.status===404){
                     alert(jsonResp.message);
                 }else{
@@ -99,13 +99,7 @@ cmbOrderItemCode.on('change', function() {
 });
 
 function setOrderButtons() {
-    let a = orderItemCodeRegEx.test($("#cmbOrderItemCode").val()) & orderCusIDRegEx.test($("#cmbOrderCustId").val()) & quantityRegEx.test($("#txtQuantity").val()) & parseInt($("#txtQuantity").val())<=parseInt($("#txtOrderItemQty").val());
     let b = orderIDRegEx.test($("#txtOrderId").val()) & cartDB.length>0;
-    if (a) {
-        $("#btnAddToCart").attr('disabled', false);
-    } else {
-        $("#btnAddToCart").attr('disabled', true);
-    }
     if (b) {
         $("#btnPurchaseOrder").attr('disabled', false);
     } else {
@@ -114,7 +108,6 @@ function setOrderButtons() {
 }
 
 txtQuantity.keyup(function (event) {
-    //setOrderButtons();
     if(txtQuantity.val()===""){
         txtQuantity.css('border','1px solid #ced4da');
         txtSubTotal.val("");
@@ -129,34 +122,45 @@ txtQuantity.keyup(function (event) {
 });
 
 btnAddItemToCart.click(function () {
-    let code = cmbOrderItemCode.val();
-    let description = txtOrderItemName.val();
-    let unit_price = txtOrderItemPrice.val();
-    let quantity = txtQuantity.val();
-    let subtotal = txtSubTotal.val();
+    if(!orderItemCodeRegEx.test(cmbOrderItemCode.val())){
+        alert("Invalid Item Code !!!");
 
-    let cart_row = {code : code, description : description, unit_price : unit_price, quantity : quantity, subtotal : subtotal};
+    }else if(!orderCusIDRegEx.test(cmbOrderCusId.val())){
+        alert("Invalid Customer ID !!!");
 
-    let isExists = isOrderItemExists(cart_row.code);
-    if(isExists.boolean){
-        let index = isExists.index;
-        cart[index].quantity = parseInt(cart[index].quantity) + parseInt(cart_row.quantity);
-        let new_total = parseFloat(cart[index].subtotal) + parseFloat(cart_row.subtotal);
-        cart[index].subtotal = new_total.toFixed(2);
+    }else if(!quantityRegEx.test(txtQuantity.val()) || parseInt(txtQuantity.val()) > parseInt(txtOrderItemQty.val())){
+        alert("Invalid Item Quantity !!!");
+
     }else{
-        cart.push(cart_row);
+
+        let code = cmbOrderItemCode.val();
+        let description = txtOrderItemName.val();
+        let unit_price = txtOrderItemPrice.val();
+        let quantity = txtQuantity.val();
+        let subtotal = txtSubTotal.val();
+
+        let cart_row = {code : code, description : description, unit_price : unit_price, quantity : quantity, subtotal : subtotal};
+
+        let isExists = isOrderItemExists(cart_row.code);
+        if(isExists.boolean){
+            let index = isExists.index;
+            cart[index].quantity = parseInt(cart[index].quantity) + parseInt(cart_row.quantity);
+            let new_total = parseFloat(cart[index].subtotal) + parseFloat(cart_row.subtotal);
+            cart[index].subtotal = new_total.toFixed(2);
+        }else{
+            cart.push(cart_row);
+        }
+
+        txtQuantity.val("");
+        txtQuantity.css('border','1px solid #ced4da');
+        txtSubTotal.val("");
+
+        //setTotalPurchase();
+        setQuantityOnHand();
+        //clearAllCustomerFields();
+        loadAllCartObjects();
+
     }
-
-    txtQuantity.val("");
-    txtQuantity.css('border','1px solid #ced4da');
-    txtSubTotal.val("");
-
-    //setTotalPurchase();
-    //setQtyOnHand();
-    //clearAllCustomerFields();
-    loadAllCartObjects();
-    //setOrderButtons();
-    //setCustomerButtons();
 });
 
 btnPurchaseOrder.click(function () {
@@ -190,18 +194,6 @@ btnPurchaseOrder.click(function () {
     loadAllItems();
     setOrderButtons();
 });
-
-function reducePurchasedItems() {
-    for (let i=0; i<cart.length; i++){
-        var orderDetail=cartDB[i];
-        for (var j in itemDB){
-            if(itemDB[j].getCode()===orderDetail.getItemCode()){
-                itemDB[j].setQuantity(itemDB[j].getQuantity()-orderDetail.getQuantity())
-            }
-        }
-    }
-}
-
 
 function clearAllOrderFields() {
     txtOrderCusName.val("");
@@ -238,20 +230,33 @@ function setTotalPurchase() {
     $("#txtTotal").text(total.toFixed(2));
 }
 
-function setQtyOnHand() {
-    var itemObject;
-    for(var i in itemDB){
-        if(itemDB[i].getCode()===cmbOrderItemCode.val()){
-            itemObject = itemDB[i];
+function setQuantityOnHand() {
+
+    $.ajax({
+        url:"http://localhost:8080/Backend/place-order?option=GET-ITEM&code="+cmbOrderItemCode.val(),
+        method:"GET",
+        contentType:"application/json",
+        success:function (jsonResp) {
+            if(jsonResp.status===200){
+                let new_quantity = parseInt(jsonResp.data.quantity);
+                let isExists = isOrderItemExists(jsonResp.data.code);
+                if (isExists.boolean) {
+                    new_quantity -= parseInt(cart[isExists.index].quantity);
+                }
+                txtOrderItemQty.val(new_quantity);
+            }else if(jsonResp.status===404){
+                alert(jsonResp.message);
+            }else{
+                alert(jsonResp.data);
+            }
+        },
+        error:function (ob, textStatus, error) {
+            console.log(ob);
+            console.log(textStatus);
+            console.log(error);
         }
-    }
-    let qty=itemObject.getQuantity();
-    for(var i in cartDB){
-        if(cartDB[i].getItemCode()===cmbOrderItemCode.val()){
-            qty-= cartDB[i].getQuantity();
-        }
-    }
-    txtOrderItemQty.val(qty);
+    });
+
 }
 
 function isOrderItemExists(code) {
