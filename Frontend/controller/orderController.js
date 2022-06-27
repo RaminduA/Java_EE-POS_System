@@ -39,43 +39,62 @@ $(document).ready(function() {
 });
 
 cmbOrderCusId.on('change', function() {
-    var id = $(this).val();
-
-    if(id===""){
-        $("#txtOrderCustName").val("");
-        $("#txtOrderCustAddress").val("");
-        $("#txtOrderCustContact").val("");
+    if($(this).val()===""){
+        txtOrderCusName.val("");
+        txtOrderCusAddress.val("");
+        txtOrderCusContact.val("");
     }else{
-        var customerObject;
-        for(var i in customerDB){
-            if(customerDB[i].getId()===id){
-                customerObject = customerDB[i];
+        $.ajax({
+            url:"http://localhost:8080/Backend/place-order?option=GET-CUSTOMER&id="+$(this).val(),
+            method:"GET",
+            contentType:"application/json",
+            success:function (jsonResp) {
+                if(jsonResp.status===200){
+                    txtOrderCusName.val(jsonResp.data.name);
+                    txtOrderCusAddress.val(jsonResp.data.address);
+                    txtOrderCusContact.val(jsonResp.data.contact);
+                }else if(jsonResp.status===404){
+                    alert(jsonResp.message);
+                }else{
+                    alert(jsonResp.data);
+                }
+            },
+            error:function (ob, textStatus, error) {
+                console.log(ob);
+                console.log(textStatus);
+                console.log(error);
             }
-        }
-        $("#txtOrderCustName").val(customerObject.getName());
-        $("#txtOrderCustAddress").val(customerObject.getAddress());
-        $("#txtOrderCustContact").val(customerObject.getContact());
+        });
     }
 });
 
 cmbOrderItemCode.on('change', function() {
-    var code = $(this).val();
-
-    if(code===""){
-        $("#txtOrderItemName").val("");
-        $("#txtOrderItemPrice").val("");
-        $("#txtOrderItemQty").val("");
+    if($(this).val()===""){
+        txtOrderItemName.val("");
+        txtOrderItemPrice.val("");
+        txtOrderItemQty.val("");
     }else{
-        var itemObject;
-        for(var i in itemDB){
-            if(itemDB[i].getCode()===code){
-                itemObject = itemDB[i];
+        $.ajax({
+            url:"http://localhost:8080/Backend/place-order?option=GET-ITEM&code="+$(this).val(),
+            method:"GET",
+            contentType:"application/json",
+            success:function (jsonResp) {
+                if(jsonResp.status===200){
+                    txtOrderItemName.val(jsonResp.data.name);
+                    txtOrderItemPrice.val(jsonResp.data.unit_price);
+                    txtOrderItemQty.val(jsonResp.data.quantity);
+                }else if(jsonResp.status===404){
+                    alert(jsonResp.message);
+                }else{
+                    alert(jsonResp.data);
+                }
+            },
+            error:function (ob, textStatus, error) {
+                console.log(ob);
+                console.log(textStatus);
+                console.log(error);
             }
-        }
-        $("#txtOrderItemName").val(itemObject.getName());
-        $("#txtOrderItemPrice").val(itemObject.getPrice());
-        setQtyOnHand();
-        //$("#txtOrderItemQty").val(itemObject.getQuantity());
+        });
     }
 });
 
