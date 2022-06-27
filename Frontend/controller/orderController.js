@@ -73,6 +73,9 @@ cmbOrderItemCode.on('change', function() {
         txtOrderItemName.val("");
         txtOrderItemPrice.val("");
         txtOrderItemQty.val("");
+        txtQuantity.val("");
+        txtQuantity.css('border','1px solid #ced4da');
+        txtSubTotal.val("");
     }else{
         $.ajax({
             url:"http://localhost:8080/Backend/place-order?option=GET-ITEM&code="+$(this).val(),
@@ -83,6 +86,9 @@ cmbOrderItemCode.on('change', function() {
                     txtOrderItemName.val(jsonResp.data.name);
                     txtOrderItemPrice.val(jsonResp.data.unit_price);
                     setQuantityOnHand();
+                    txtQuantity.val("");
+                    txtQuantity.css('border','1px solid #ced4da');
+                    txtSubTotal.val("");
                 }else if(jsonResp.status===404){
                     alert(jsonResp.message);
                 }else{
@@ -155,24 +161,24 @@ btnAddItemToCart.click(function () {
         txtQuantity.css('border','1px solid #ced4da');
         txtSubTotal.val("");
 
-        //setTotalPurchase();
+        setTotalPurchase();
         setQuantityOnHand();
-        //clearAllCustomerFields();
         loadAllCartObjects();
 
     }
 });
 
 btnPurchaseOrder.click(function () {
-    let orderID = $("#txtOrderId").val();
-    let cusID = $("#cmbOrderCustId").val();
-    let orderDate = $("#txtDate").val();
-    let orderTime = $("#txtTime").val();
-    let orderCost = $("#txtTotal").val();
+    let orderID = txtOrderId.text();
+    let cusID = cmbOrderCusId.val();
+    let dt = new Date();
+    let orderDate = moment(dt).format("yyyy-MM-DD");
+    let orderTime = moment(dt).format("hh:mm:ss A");
+    let orderCost = txtTotal.text();
 
-    let detailList=new Array();
+    let detailList = [];
 
-    for (var i in cartDB){
+    for (let i=0; i<cart.length; i++){
         let itmID=cartDB[i].getItemCode();
         let itmQty=cartDB[i].getQuantity();
         let itmPrice=cartDB[i].getPrice();
@@ -185,14 +191,11 @@ btnPurchaseOrder.click(function () {
     var orderObject=new OrderDTO(orderID,cusID,orderDate,orderTime,orderCost,detailList);
     orderDB.push(orderObject);
 
-    reducePurchasedItems();
-    cartDB.splice(0, cartDB.length);
+    cart = [];
     setOrderId();
     setTotalPurchase();
     clearAllOrderFields();
     loadAllCartObjects();
-    loadAllItems();
-    setOrderButtons();
 });
 
 function clearAllOrderFields() {
@@ -224,10 +227,10 @@ function loadAllCartObjects() {
 
 function setTotalPurchase() {
     let total=0;
-    for(var i in cartDB){
-        total+=parseFloat(cartDB[i].getTotal());
+    for(let i=0; i<cart.length; i++){
+        total += parseFloat(cart[i].subtotal);
     }
-    $("#txtTotal").text(total.toFixed(2));
+    txtTotal.text(total.toFixed(2));
 }
 
 function setQuantityOnHand() {
