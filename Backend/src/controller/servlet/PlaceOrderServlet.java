@@ -83,22 +83,22 @@ public class PlaceOrderServlet extends HttpServlet {
             JsonObject reqData = jsonReq.getJsonObject("data");
 
             ArrayList<OrderDetailDTO> detailDTOs = new ArrayList<>();
-            JsonArray detailList = reqData.getJsonArray("detail-list");
+            JsonArray detailList = reqData.getJsonArray("detail_list");
 
             for (JsonValue jsonValue : detailList) {
                 JsonObject jsonDetail = jsonValue.asJsonObject();
                 detailDTOs.add(new OrderDetailDTO(
-                        jsonDetail.getString("order-id"),
-                        jsonDetail.getString("item-code"),
-                        Double.parseDouble(jsonDetail.get("unit-price").toString()),
+                        jsonDetail.getString("order_id"),
+                        jsonDetail.getString("item_code"),
+                        Double.parseDouble(jsonDetail.get("unit_price").toString()),
                         jsonDetail.getInt("quantity"),
                         Double.parseDouble(jsonDetail.get("price").toString())
                 ));
             }
 
             OrderDTO orderDTO = new OrderDTO(
-                    reqData.getString("order-id"),
-                    reqData.getString("customer-id"),
+                    reqData.getString("order_id"),
+                    reqData.getString("customer_id"),
                     reqData.getString("date"),
                     reqData.getString("time"),
                     Double.parseDouble(reqData.get("cost").toString()),
