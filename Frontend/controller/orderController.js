@@ -19,7 +19,7 @@ let txtSubTotal = $("#txtSubTotal");
 
 let tblOrder = $("#order-table");
 
-$("#txtOrderId").val("O00-0001");
+let cart = [];
 
 
 
@@ -113,51 +113,49 @@ function setOrderButtons() {
     }
 }
 
-$("#txtQuantity").keyup(function (event) {
-    setOrderButtons();
-    if($("#txtQuantity").val()===""){
-        $("#txtQuantity").css('border','1px solid #ced4da');
-        $("#txtSubTotal").val("");
-    }else if (parseInt($("#txtQuantity").val())<=parseInt($("#txtOrderItemQty").val()) & quantityRegEx.test($("#txtQuantity").val())){
-        $("#txtQuantity").css('border','3px solid green');
-        var st=parseInt($("#txtQuantity").val()) * parseFloat($("#txtOrderItemPrice").val());
-        $("#txtSubTotal").val(st.toFixed(2));
+txtQuantity.keyup(function (event) {
+    //setOrderButtons();
+    if(txtQuantity.val()===""){
+        txtQuantity.css('border','1px solid #ced4da');
+        txtSubTotal.val("");
+    }else if (parseInt(txtQuantity.val()) <= parseInt(txtOrderItemQty.val()) && quantityRegEx.test(txtQuantity.val())){
+        txtQuantity.css('border','3px solid green');
+        let subtotal = parseInt(txtQuantity.val()) * parseFloat(txtOrderItemPrice.val());
+        txtSubTotal.val(subtotal.toFixed(2));
     }else{
-        $("#txtQuantity").css('border','3px solid red');
-        $("#txtSubTotal").val("");
+        txtQuantity.css('border','3px solid red');
+        txtSubTotal.val("");
     }
 });
 
-$('#btnAddToCart').click(function () {
-    let itmCode = $("#cmbOrderItemCode").val();
-    let itmName = $("#txtOrderItemName").val();
-    let itmPrice = $("#txtOrderItemPrice").val();
-    let itmQty = $("#txtQuantity").val();
-    let itmTotal = $("#txtSubTotal").val();
+btnAddItemToCart.click(function () {
+    let code = cmbOrderItemCode.val();
+    let description = txtOrderItemName.val();
+    let unit_price = txtOrderItemPrice.val();
+    let quantity = txtQuantity.val();
+    let subtotal = txtSubTotal.val();
 
-    var cartObject=new OrderTM(itmCode,itmName,itmPrice,itmQty,itmTotal);
-    if(isOrderItemExists(cartObject.getItemCode())){
-        for(var i in cartDB){
-            if(cartDB[i].getItemCode()===itmCode){
-                let newQty=parseInt(cartDB[i].getQuantity())+parseInt(cartObject.getQuantity());
-                cartDB[i].setQuantity(newQty);
-                let newTotal=parseFloat(cartDB[i].getTotal())+parseFloat(cartObject.getTotal());
-                cartDB[i].setTotal(newTotal.toFixed(2));
-            }
-        }
+    let cart_row = {code : code, description : description, unit_price : unit_price, quantity : quantity, subtotal : subtotal};
+
+    let isExists = isOrderItemExists(cart_row.code);
+    if(isExists.boolean){
+        let index = isExists.index;
+        cart[index].quantity = parseInt(cart[index].quantity) + parseInt(cart_row.quantity);
+        let new_total = parseFloat(cart[index].subtotal) + parseFloat(cart_row.subtotal);
+        cart[index].subtotal = new_total.toFixed(2);
     }else{
-        cartDB.push(cartObject);
+        cart.push(cart_row);
     }
 
-    $("#txtQuantity").val("");
-    $("#txtSubTotal").val("");
-    $("#txtQuantity").css('border','1px solid #ced4da');
+    txtQuantity.val("");
+    txtQuantity.css('border','1px solid #ced4da');
+    txtSubTotal.val("");
 
-    setTotalPurchase();
-    setQtyOnHand();
+    //setTotalPurchase();
+    //setQtyOnHand();
     //clearAllCustomerFields();
     loadAllCartObjects();
-    setOrderButtons();
+    //setOrderButtons();
     //setCustomerButtons();
 });
 
@@ -194,7 +192,7 @@ btnPurchaseOrder.click(function () {
 });
 
 function reducePurchasedItems() {
-    for (var i in cartDB){
+    for (let i=0; i<cart.length; i++){
         var orderDetail=cartDB[i];
         for (var j in itemDB){
             if(itemDB[j].getCode()===orderDetail.getItemCode()){
@@ -220,14 +218,14 @@ function clearAllOrderFields() {
 function loadAllCartObjects() {
     tblOrder.empty();
 
-    for (var i in cartDB){
-        let itmCode=cartDB[i].getItemCode();
-        let itmName=cartDB[i].getItemName();
-        let itmPrice=cartDB[i].getPrice();
-        let itmQty=cartDB[i].getQuantity();
-        let itmTotal=cartDB[i].getTotal();
+    for (let i=0; i<cart.length; i++){
+        let code=cart[i].code;
+        let description = cart[i].description;
+        let unit_price = cart[i].unit_price;
+        let quantity = cart[i].quantity;
+        let subtotal = cart[i].subtotal;
 
-        let row = `<tr><td>${itmCode}</td><td>${itmName}</td><td>${itmPrice}</td><td>${itmQty}</td><td>${itmTotal}</td></tr>`;
+        let row = `<tr scope="row"><td>${i+1}</td><td><a href="#">${code}</a></td><td>${description}</td><td>${unit_price}</td><td>${quantity}</td><td>${subtotal}</td></tr><tr class="spacer"><td colspan="100"></td></tr>`;
         tblOrder.append(row);
     }
 }
@@ -256,13 +254,13 @@ function setQtyOnHand() {
     txtOrderItemQty.val(qty);
 }
 
-function isOrderItemExists(itmCode) {
-    for(var i in cartDB){
-        if(cartDB[i].getItemCode()===itmCode){
-            return true;
+function isOrderItemExists(code) {
+    for(let i=0; i<cart.length; i++){
+        if(cart[i].code===code){
+            return {boolean : true, index : i};
         }
     }
-    return false;
+    return {boolean : false, index : -1};
 }
 
 function playDT(){
